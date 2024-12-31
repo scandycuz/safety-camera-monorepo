@@ -1,0 +1,9 @@
+{
+  "name": "smart-safety-solutions-admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/smart-safety-solutions-admin",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project smart-safety-solutions-admin --web",
+  "targets": {}
+}
