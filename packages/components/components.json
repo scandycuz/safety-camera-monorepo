@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@smart-safety-solutions/components/src/lib/base",
-    "utils": "@smart-safety-solutions/components/src/lib/utils",
-    "ui": "@smart-safety-solutions/components/src/lib/base/ui",
-    "lib": "@smart-safety-solutions/components/src/lib",
-    "hooks": "@smart-safety-solutions/components/src/lib/hooks"
+    "components": "packages/components/src/lib/base",
+    "utils": "packages/components/src/lib/utils",
+    "ui": "packages/components/src/lib/base/ui",
+    "lib": "packages/components/src/lib",
+    "hooks": "packages/components/src/lib/hooks"
   },
   "iconLibrary": "lucide"
 }
