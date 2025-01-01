@@ -1,12 +1,20 @@
 'use client';
 import { Button, InputField } from '@smart-safety-solutions/components';
 import { images } from '@smart-safety-solutions/assets';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import { SessionContext } from '@smart-safety-solutions/contexts';
+import { useLogInMutation } from '@smart-safety-solutions/apis';
 import Image from 'next/image';
 import { Form, Formik } from 'formik';
 
 const Index: FunctionComponent = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { state: sessionState, logOut } = useContext(SessionContext);
+
+  const [logIn] = useLogInMutation();
+
   const initialValues = {
     username: '',
     password: '',
@@ -18,11 +26,24 @@ const Index: FunctionComponent = () => {
   });
 
   const handleLogin = (values: typeof initialValues) => {
-    fetch('http://24.144.82.31:8085/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(values),
-    });
+    logIn(values);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return <div />;
+  }
+
+  if (sessionState.isLoggedIn) {
+    return (
+      <div className="flex min-w-full min-h-full justify-center pt-48">
+        <Button onClick={logOut}>Log out</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-w-full min-h-full items-center pt-48 gap-6">
@@ -30,6 +51,7 @@ const Index: FunctionComponent = () => {
         width={260}
         src={images.SmartSafetySolutionsLogo}
         alt="Smart Safety Solutions Logo"
+        priority
       />
 
       <Formik

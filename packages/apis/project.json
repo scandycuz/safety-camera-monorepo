@@ -1,0 +1,19 @@
+{
+  "name": "apis",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/apis/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/apis",
+        "main": "packages/apis/src/index.ts",
+        "tsConfig": "packages/apis/tsconfig.lib.json",
+        "assets": ["packages/apis/*.md"]
+      }
+    }
+  }
+}
