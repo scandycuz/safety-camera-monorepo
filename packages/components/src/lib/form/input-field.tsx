@@ -8,7 +8,7 @@ const InputField: FunctionComponent<ComponentProps<'input'>> = ({
 }) => {
   return (
     <Field name={name}>
-      {({ field, form: { touched, errors }, meta }: FieldProps) => (
+      {({ field, form, meta }: FieldProps) => (
         <div className="flex flex-col gap-2">
           <Input {...props} {...field} />
 

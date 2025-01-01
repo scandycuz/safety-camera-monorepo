@@ -38,8 +38,8 @@ const Index: FunctionComponent = () => {
         validationSchema={validationSchema}
       >
         <Form className="flex flex-col gap-4 w-72">
-          <InputField name="username" />
-          <InputField name="password" type="password" />
+          <InputField name="username" placeholder="email" />
+          <InputField name="password" type="password" placeholder="password" />
 
           <Button type="submit">Log in</Button>
         </Form>
