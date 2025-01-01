@@ -9,11 +9,11 @@ import Image from 'next/image';
 import { Form, Formik } from 'formik';
 
 const Index: FunctionComponent = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { state: sessionState, logOut } = useContext(SessionContext);
 
-  const [logIn] = useLogInMutation();
+  const [logIn, { isLoading: isLoginLoading }] = useLogInMutation();
 
   const initialValues = {
     username: '',
@@ -29,11 +29,15 @@ const Index: FunctionComponent = () => {
     logIn(values);
   };
 
+  /**
+   * Updates state after component mounts. Used to prevent
+   * hydration mismatch errors between server and client.
+   */
   useEffect(() => {
-    setIsLoading(false);
+    setIsMounted(true);
   }, []);
 
-  if (isLoading) {
+  if (!isMounted) {
     return <div />;
   }
 
@@ -63,7 +67,9 @@ const Index: FunctionComponent = () => {
           <InputField name="username" placeholder="email" />
           <InputField name="password" type="password" placeholder="password" />
 
-          <Button type="submit">Log in</Button>
+          <Button type="submit" isDisabled={isLoginLoading}>
+            Log in
+          </Button>
         </Form>
       </Formik>
     </div>

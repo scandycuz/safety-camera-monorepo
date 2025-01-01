@@ -16,7 +16,7 @@ const SessionProvider: FunctionComponent<SessionProviderProps> = ({
 
   /**
    * Subscribe to store and re-render when changes, without
-   * requiring provider context.
+   * requiring Redux provider context.
    */
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
