@@ -12,3 +12,7 @@ export const logOut = (): void => {
 export const receiveTokens = (tokens: SessionTokens): void => {
   store.dispatch(receiveTokensAction(tokens));
 };
+
+export const getSessionState = () => {
+  return store.getState();
+};
