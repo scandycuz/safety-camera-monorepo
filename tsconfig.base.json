@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@smart-safety-solutions/assets": ["packages/assets/src/index.ts"],
       "@smart-safety-solutions/components": ["packages/components/src/index.ts"]
     }
   },
