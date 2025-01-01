@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { SessionTokenBody, SessionTokenResponse } from './types';
 import { baseQueryWithReauth } from './utils';
-import { receiveTokens } from '@smart-safety-solutions/contexts';
+import { receiveSessionTokens } from '@smart-safety-solutions/contexts';
 
 const api = createApi({
   baseQuery: baseQueryWithReauth,
@@ -15,7 +15,7 @@ const api = createApi({
       onQueryStarted: async (body, { queryFulfilled }) => {
         try {
           const resp = await queryFulfilled;
-          receiveTokens(resp.data);
+          receiveSessionTokens(resp.data);
         } catch (err) {
           console.log(err);
           // TODO: set error toast message

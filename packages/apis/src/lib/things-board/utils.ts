@@ -5,7 +5,7 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import Cookies from 'js-cookie';
-import { logOut, receiveTokens } from '@smart-safety-solutions/contexts';
+import { logOut, receiveSessionTokens } from '@smart-safety-solutions/contexts';
 import { Mutex } from 'async-mutex';
 import {
   SessionCookies,
@@ -49,7 +49,7 @@ export const baseQueryWithReauth: BaseQueryFn<
         const refreshResultData = refreshResult.data as SessionTokens;
 
         if (refreshResultData as SessionTokens) {
-          receiveTokens(refreshResultData);
+          receiveSessionTokens(refreshResultData);
 
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);

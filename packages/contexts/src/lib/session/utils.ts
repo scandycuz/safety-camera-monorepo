@@ -1,6 +1,6 @@
 import {
   logOut as logOutAction,
-  receiveTokens as receiveTokensAction,
+  receiveSessionTokens as receiveSessionTokensAction,
 } from './slice';
 import store from './store';
 import { SessionTokens } from './types';
@@ -9,8 +9,8 @@ export const logOut = (): void => {
   store.dispatch(logOutAction());
 };
 
-export const receiveTokens = (tokens: SessionTokens): void => {
-  store.dispatch(receiveTokensAction(tokens));
+export const receiveSessionTokens = (tokens: SessionTokens): void => {
+  store.dispatch(receiveSessionTokensAction(tokens));
 };
 
 export const getSessionState = () => {

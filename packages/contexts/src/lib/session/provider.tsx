@@ -1,7 +1,7 @@
 'use client';
 import SessionContext from './context';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { logOut, receiveTokens } from './utils';
+import { logOut, receiveSessionTokens } from './utils';
 import store from './store';
 import { initialSessionState } from './slice';
 
@@ -28,7 +28,7 @@ const SessionProvider: FunctionComponent<SessionProviderProps> = ({
   }, []);
 
   return (
-    <SessionContext.Provider value={{ state, logOut, receiveTokens }}>
+    <SessionContext.Provider value={{ state, logOut, receiveSessionTokens }}>
       {children}
     </SessionContext.Provider>
   );

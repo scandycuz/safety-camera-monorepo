@@ -18,7 +18,10 @@ const sessionSlice = createSlice({
 
       state.isLoggedIn = false;
     },
-    receiveTokens: (state, { payload }: PayloadAction<SessionTokens>) => {
+    receiveSessionTokens: (
+      state,
+      { payload }: PayloadAction<SessionTokens>
+    ) => {
       Cookies.set(SessionCookies.token, payload.token);
       Cookies.set(SessionCookies.refreshToken, payload.refreshToken);
 
@@ -27,6 +30,6 @@ const sessionSlice = createSlice({
   },
 });
 
-export const { logOut, receiveTokens } = sessionSlice.actions;
+export const { logOut, receiveSessionTokens } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

@@ -1,12 +1,12 @@
 'use client';
 import { createContext } from 'react';
 import { initialSessionState } from './slice';
-import { logOut, receiveTokens } from './utils';
+import { logOut, receiveSessionTokens } from './utils';
 
 const initialContext = {
   state: initialSessionState,
   logOut,
-  receiveTokens,
+  receiveSessionTokens,
 };
 
 const SessionContext = createContext(initialContext);
