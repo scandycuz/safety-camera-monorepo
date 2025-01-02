@@ -1,11 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SessionCookies, SessionState, SessionTokens } from './types';
+import {
+  DecodedSessionToken,
+  SessionCookies,
+  SessionState,
+  SessionTokens,
+} from './types';
+import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 const isLoggedIn = !!Cookies.get(SessionCookies.token);
 
 export const initialSessionState: SessionState = {
   isLoggedIn,
+  firstName: '',
+  email: '',
+  userId: '',
+  tenantId: '',
+  customerId: '',
 };
 
 const sessionSlice = createSlice({
@@ -18,18 +29,30 @@ const sessionSlice = createSlice({
 
       state.isLoggedIn = false;
     },
-    receiveSessionTokens: (
-      state,
-      { payload }: PayloadAction<SessionTokens>
-    ) => {
+    receiveSession: (state, { payload }: PayloadAction<SessionTokens>) => {
       Cookies.set(SessionCookies.token, payload.token);
       Cookies.set(SessionCookies.refreshToken, payload.refreshToken);
 
       state.isLoggedIn = true;
     },
+    populateSession: (state) => {
+      const token = Cookies.get(SessionCookies.token);
+
+      if (!token) {
+        throw new Error('session token not present');
+      }
+
+      const decoded = jwtDecode<DecodedSessionToken>(token);
+
+      state.firstName = decoded.firstName;
+      state.email = decoded.sub;
+      state.userId = decoded.userId;
+      state.tenantId = decoded.tenantId;
+      state.customerId = decoded.customerId;
+    },
   },
 });
 
-export const { logOut, receiveSessionTokens } = sessionSlice.actions;
+export const { logOut, populateSession, receiveSession } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

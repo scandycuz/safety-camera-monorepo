@@ -1,7 +1,7 @@
 'use client';
 import SessionContext from './context';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { logOut, receiveSessionTokens } from './utils';
+import { logOut, receiveSession, populateSession } from './utils';
 import store from './store';
 import { initialSessionState } from './slice';
 
@@ -19,16 +19,16 @@ const SessionProvider: FunctionComponent<SessionProviderProps> = ({
    * requiring Redux provider context.
    */
   useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
+    store.subscribe(() => {
       const sessionState = store.getState().session;
       setState(sessionState);
     });
-
-    return unsubscribe;
   }, []);
 
   return (
-    <SessionContext.Provider value={{ state, logOut, receiveSessionTokens }}>
+    <SessionContext.Provider
+      value={{ state, logOut, populateSession, receiveSession }}
+    >
       {children}
     </SessionContext.Provider>
   );

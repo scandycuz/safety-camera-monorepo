@@ -1,22 +1,22 @@
 'use client';
-import { Button } from '@smart-safety-solutions/components';
 import { SessionContext } from '@smart-safety-solutions/contexts';
-import { useRouter } from 'next/navigation';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, useEffect } from 'react';
+import HeaderBar from '../../components/header-bar';
 
 const Dashboard: FunctionComponent = () => {
-  const { logOut } = useContext(SessionContext);
+  const { populateSession } = useContext(SessionContext);
 
-  const router = useRouter();
-
-  const handleLogout = () => {
-    logOut();
-    router.push('/login');
-  };
+  /**
+   * Populates the session context when an authenticated
+   * user lands on the dashboard.
+   */
+  useEffect(() => {
+    populateSession();
+  }, [populateSession]);
 
   return (
-    <div className="flex min-w-full min-h-full justify-center pt-48">
-      <Button onClick={handleLogout}>Log out</Button>
+    <div className="flex flex-col w-full">
+      <HeaderBar />
     </div>
   );
 };
