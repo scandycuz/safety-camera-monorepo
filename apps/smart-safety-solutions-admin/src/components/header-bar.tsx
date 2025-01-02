@@ -74,7 +74,7 @@ const HeaderBar: FunctionComponent = () => {
                   <li>
                     <NavigationMenuLink asChild>
                       <Button variant="ghost" onClick={handleLogout}>
-                        Log out skldk kdk kdkd
+                        Log out
                       </Button>
                     </NavigationMenuLink>
                   </li>
