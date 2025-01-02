@@ -2,6 +2,14 @@
 import { images } from '@smart-safety-solutions/assets';
 import {
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -9,6 +17,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@smart-safety-solutions/components';
+import { Bell } from 'lucide-react';
 import { SessionContext } from '@smart-safety-solutions/contexts';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -37,6 +46,21 @@ const HeaderBar: FunctionComponent = () => {
       />
 
       <div className="flex flex-row gap-2 items-center">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">
+              <Bell />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="mr-2 w-64">
+            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>Example notification</DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
