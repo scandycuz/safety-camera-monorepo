@@ -45,21 +45,25 @@ const HeaderBar: FunctionComponent = () => {
         priority
       />
 
-      <div className="flex flex-row gap-2 items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <Bell />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-2 w-64">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>Example notification</DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-row gap-10 items-center">
+        <div className="flex flex-row gap-2 items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <Bell />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-64" align="end">
+              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <div className="opacity-80">No current notifications</div>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
         <NavigationMenu>
           <NavigationMenuList>
@@ -70,7 +74,7 @@ const HeaderBar: FunctionComponent = () => {
                   <li>
                     <NavigationMenuLink asChild>
                       <Button variant="ghost" onClick={handleLogout}>
-                        Log out
+                        Log out skldk kdk kdkd
                       </Button>
                     </NavigationMenuLink>
                   </li>
