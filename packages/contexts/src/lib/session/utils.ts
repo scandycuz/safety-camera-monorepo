@@ -14,5 +14,5 @@ export const receiveSessionTokens = (tokens: SessionTokens): void => {
 };
 
 export const getSessionState = () => {
-  return store.getState();
+  return store.getState().session;
 };
