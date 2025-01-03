@@ -1,7 +1,6 @@
 'use client';
 import { SessionContext } from '@smart-safety-solutions/contexts';
 import { FunctionComponent, useContext, useEffect } from 'react';
-import HeaderBar from '../../components/header-bar';
 
 const Dashboard: FunctionComponent = () => {
   const { populateSession } = useContext(SessionContext);
@@ -14,11 +13,7 @@ const Dashboard: FunctionComponent = () => {
     populateSession();
   }, [populateSession]);
 
-  return (
-    <div className="flex flex-col w-full">
-      <HeaderBar />
-    </div>
-  );
+  return <div className="flex flex-1 flex-col"></div>;
 };
 
 export default Dashboard;

@@ -10,7 +10,7 @@ import { Mutex } from 'async-mutex';
 import {
   SessionCookies,
   SessionTokens,
-} from 'packages/contexts/src/lib/session/types';
+} from '@smart-safety-solutions/contexts';
 
 const baseUrl = 'http://24.144.82.31:8085/';
 
