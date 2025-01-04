@@ -17,7 +17,16 @@ const baseUrl = 'http://24.144.82.31:8085/';
 // mutex to pause calls while refreshing session
 const mutex = new Mutex();
 
-const baseQuery = fetchBaseQuery({ baseUrl });
+const baseQuery = fetchBaseQuery({
+  baseUrl,
+  prepareHeaders: (headers: Headers) => {
+    const token = Cookies.get(SessionCookies.token);
+
+    if (token) headers.set('X-Authorization', `Bearer ${token}`);
+
+    return headers;
+  },
+});
 
 export const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,

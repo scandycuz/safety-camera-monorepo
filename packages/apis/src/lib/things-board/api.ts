@@ -1,5 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { SessionTokenBody, SessionTokenResponse } from './types';
+import {
+  AlarmsQueryParams,
+  AlarmsResponse,
+  SessionTokenBody,
+  SessionTokenResponse,
+} from './types';
 import { baseQueryWithReauth } from './utils';
 import { receiveSession } from '@smart-safety-solutions/contexts';
 
@@ -22,9 +27,23 @@ const api = createApi({
         }
       },
     }),
+    fetchAlarms: build.query<AlarmsResponse, AlarmsQueryParams | void>({
+      query: (params: AlarmsQueryParams = { pageSize: 20, page: 1 }) => ({
+        url: 'api/v2/alarms',
+        params,
+      }),
+      onQueryStarted: async (params, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+    }),
   }),
 });
 
-export const { useLogInMutation } = api;
+export const { useFetchAlarmsQuery, useLogInMutation } = api;
 
 export default api;

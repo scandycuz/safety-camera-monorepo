@@ -57,7 +57,7 @@ const HeaderBar: FunctionComponent = () => {
           </DropdownMenu>
         </div>
 
-        <NavigationMenu delayDuration={100}>
+        <NavigationMenu delayDuration={50}>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>{firstName}</NavigationMenuTrigger>
