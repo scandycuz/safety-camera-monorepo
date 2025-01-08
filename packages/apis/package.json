@@ -2,6 +2,12 @@
   "name": "@smart-safety-solutions/apis",
   "version": "0.0.1",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
+    "@smart-safety-solutions/contexts": "^0.0.1",
+    "async-mutex": "^0.5.0",
+    "js-cookie": "^3.0.5",
+    "react": "18.3.1",
+    "react-redux": "^9.2.0",
     "tslib": "^2.3.0"
   },
   "type": "commonjs",

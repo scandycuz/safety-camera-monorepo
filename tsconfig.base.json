@@ -20,7 +20,8 @@
       "@smart-safety-solutions/components": [
         "packages/components/src/index.ts"
       ],
-      "@smart-safety-solutions/contexts": ["packages/contexts/src/index.ts"]
+      "@smart-safety-solutions/contexts": ["packages/contexts/src/index.ts"],
+      "@smart-safety-solutions/utils": ["packages/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

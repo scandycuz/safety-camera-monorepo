@@ -12,7 +12,7 @@ import {
   SessionTokens,
 } from '@smart-safety-solutions/contexts';
 
-const baseUrl = 'http://24.144.82.31:8085/';
+const baseUrl = 'https://www.acusaif.com/';
 
 // mutex to pause calls while refreshing session
 const mutex = new Mutex();

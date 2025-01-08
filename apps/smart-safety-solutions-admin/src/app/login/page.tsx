@@ -7,11 +7,17 @@ import { useRouter } from 'next/navigation';
 import { useLogInMutation } from '@smart-safety-solutions/apis';
 import Image from 'next/image';
 import { Form, Formik } from 'formik';
+import { parseRtkQueryEndpointErrorMessage } from '@smart-safety-solutions/utils';
 
 const Login: FunctionComponent = () => {
   const router = useRouter();
-  const [logIn, { isLoading: isLoginLoading, isSuccess: isLoginSuccess }] =
-    useLogInMutation();
+
+  const [
+    logIn,
+    { isLoading: isLoginLoading, isSuccess: isLoginSuccess, error },
+  ] = useLogInMutation();
+
+  const errorMessage = parseRtkQueryEndpointErrorMessage(error);
 
   const initialFormValues = {
     username: '',
@@ -55,13 +61,19 @@ const Login: FunctionComponent = () => {
         onSubmit={handleLogin}
         validationSchema={validationSchema}
       >
-        <Form className="flex flex-col gap-4 w-72">
+        <Form className="flex flex-col gap-4 w-72 justify-center">
           <InputField name="username" placeholder="email" />
           <InputField name="password" type="password" placeholder="password" />
 
           <Button type="submit" isDisabled={isLoginLoading}>
             Log in
           </Button>
+
+          {!!errorMessage && (
+            <div className="flex flex-1 justify-center">
+              <span className="text-sm text-red-500">{errorMessage}</span>
+            </div>
+          )}
         </Form>
       </Formik>
     </div>
