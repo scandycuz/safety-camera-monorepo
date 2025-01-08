@@ -1,29 +1,20 @@
 'use client';
 import SessionContext from './context';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { logOut, receiveSession, populateSession } from './utils';
 import store from './store';
-import { initialSessionState } from './slice';
+import { Provider, useSelector } from 'react-redux';
 
 interface SessionProviderProps {
   readonly children: JSX.Element;
 }
 
+type RootState = ReturnType<typeof store.getState>;
+
 const SessionProvider: FunctionComponent<SessionProviderProps> = ({
   children,
 }) => {
-  const [state, setState] = useState(initialSessionState);
-
-  /**
-   * Subscribe to store and re-render when changes, without
-   * requiring Redux provider context.
-   */
-  useEffect(() => {
-    store.subscribe(() => {
-      const sessionState = store.getState().session;
-      setState(sessionState);
-    });
-  }, []);
+  const state = useSelector((state: RootState) => state.session);
 
   return (
     <SessionContext.Provider
@@ -34,4 +25,14 @@ const SessionProvider: FunctionComponent<SessionProviderProps> = ({
   );
 };
 
-export default SessionProvider;
+const WrappedSessionProvider: FunctionComponent<SessionProviderProps> = ({
+  children,
+}) => {
+  return (
+    <Provider store={store}>
+      <SessionProvider>{children}</SessionProvider>
+    </Provider>
+  );
+};
+
+export default WrappedSessionProvider;

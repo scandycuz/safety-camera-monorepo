@@ -9,13 +9,13 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ApiProvider>
-      <SessionProvider>
+    <SessionProvider>
+      <ApiProvider>
         <html lang="en">
           <body>{children}</body>
         </html>
-      </SessionProvider>
-    </ApiProvider>
+      </ApiProvider>
+    </SessionProvider>
   );
 };
 
