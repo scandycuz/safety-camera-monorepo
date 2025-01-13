@@ -28,8 +28,22 @@ const api = createApi({
       },
     }),
     fetchAlarms: build.query<AlarmsResponse, AlarmsQueryParams | void>({
-      query: (params: AlarmsQueryParams = { pageSize: 20, page: 1 }) => ({
+      query: (params: AlarmsQueryParams = { pageSize: 20, page: 0 }) => ({
         url: 'api/v2/alarms',
+        params,
+      }),
+      onQueryStarted: async (params, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+    }),
+    fetchNotifications: build.query<AlarmsResponse, AlarmsQueryParams | void>({
+      query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
+        url: 'api/notifications',
         params,
       }),
       onQueryStarted: async (params, { queryFulfilled }) => {
@@ -44,6 +58,10 @@ const api = createApi({
   }),
 });
 
-export const { useFetchAlarmsQuery, useLogInMutation } = api;
+export const {
+  useFetchAlarmsQuery,
+  useFetchNotificationsQuery,
+  useLogInMutation,
+} = api;
 
 export default api;
