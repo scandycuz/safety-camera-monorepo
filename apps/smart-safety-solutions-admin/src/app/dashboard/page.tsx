@@ -1,6 +1,6 @@
 'use client';
 import { SessionContext } from '@smart-safety-solutions/contexts';
-import AlarmsGraph from '../../components/alarms-graph';
+import AlertsGraph from '../../components/alerts-graph';
 import { FunctionComponent, useContext, useEffect } from 'react';
 
 const Dashboard: FunctionComponent = () => {
@@ -16,7 +16,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <div className="flex flex-1 flex-col p-4">
-      <AlarmsGraph />
+      <AlertsGraph />
     </div>
   );
 };

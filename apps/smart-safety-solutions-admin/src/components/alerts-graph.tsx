@@ -1,6 +1,6 @@
 'use_client';
 import { FunctionComponent } from 'react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import {
   Card,
   CardContent,
@@ -29,10 +29,11 @@ const chartConfig: ChartConfig = {
   },
 };
 
-const AlarmsGraph: FunctionComponent = () => {
+const AlertsGraph: FunctionComponent = () => {
   const { data = { data: [] } } = useFetchNotificationsQuery();
 
-  const last30Days = Array.from({ length: 30 }, (_, i) => {
+  // construct array of last 30 days with default alert value of 0
+  const last30DaysArr = Array.from({ length: 30 }, (_, i) => {
     const today = dayjs();
     const currentDay = today.subtract(i, 'days');
     const readableDate = currentDay.format('MMM Do');
@@ -42,7 +43,8 @@ const AlarmsGraph: FunctionComponent = () => {
     };
   });
 
-  const alertsByDayInitial = last30Days.reduce((result, item) => {
+  // convert date array to object with date as key
+  const last30DaysObj = last30DaysArr.reduce((result, item) => {
     const entries = Object.entries(item);
     const [key, value] = entries[0];
 
@@ -51,6 +53,7 @@ const AlarmsGraph: FunctionComponent = () => {
     return result;
   }, {});
 
+  // iterate through alerts and update date array with alert values
   const alertsByDay = data.data.reduce((result, item) => {
     const {
       readableDate,
@@ -60,8 +63,9 @@ const AlarmsGraph: FunctionComponent = () => {
     if (action === 'created') result[readableDate] += 1;
 
     return result;
-  }, alertsByDayInitial);
+  }, last30DaysObj);
 
+  // convert alerts object to chart data array
   const chartData = Object.entries(alertsByDay).reduce(
     (result: ChartData, [date, alerts]) => {
       return [...result, { date, alerts }];
@@ -108,4 +112,4 @@ const AlarmsGraph: FunctionComponent = () => {
   );
 };
 
-export default AlarmsGraph;
+export default AlertsGraph;
