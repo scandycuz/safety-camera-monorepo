@@ -1,10 +1,6 @@
 export interface SessionState {
   readonly isLoggedIn: boolean;
-  readonly firstName: string;
-  readonly email: string;
   readonly userId: string;
-  readonly tenantId: string;
-  readonly customerId: string;
 }
 
 export interface SessionStoreState {

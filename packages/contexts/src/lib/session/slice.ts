@@ -12,11 +12,7 @@ const isLoggedIn = !!Cookies.get(SessionCookies.token);
 
 export const initialSessionState: SessionState = {
   isLoggedIn,
-  firstName: '',
-  email: '',
   userId: '',
-  tenantId: '',
-  customerId: '',
 };
 
 const sessionSlice = createSlice({
@@ -44,11 +40,7 @@ const sessionSlice = createSlice({
 
       const decoded = jwtDecode<DecodedSessionToken>(token);
 
-      state.firstName = decoded.firstName;
-      state.email = decoded.sub;
       state.userId = decoded.userId;
-      state.tenantId = decoded.tenantId;
-      state.customerId = decoded.customerId;
     },
   },
 });

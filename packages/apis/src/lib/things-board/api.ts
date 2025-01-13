@@ -8,6 +8,7 @@ import {
   SessionTokenBody,
   SessionTokenResponse,
   ApiNotification,
+  UserProfileResponse,
 } from './types';
 import { baseQueryWithReauth } from './utils';
 import dayjs from 'dayjs';
@@ -84,7 +85,7 @@ const api = createApi({
         }
       },
     }),
-    fetchUserProfile: build.query<SessionTokenResponse, string>({
+    fetchUserProfile: build.query<UserProfileResponse, string>({
       query: (userId) => ({
         url: `api/user/${userId}`,
       }),
@@ -103,6 +104,7 @@ const api = createApi({
 export const {
   useFetchAlarmsQuery,
   useFetchNotificationsQuery,
+  useFetchUserProfileQuery,
   useLogInMutation,
 } = api;
 

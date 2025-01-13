@@ -21,15 +21,22 @@ import { Bell } from 'lucide-react';
 import { SessionContext } from '@smart-safety-solutions/contexts';
 import { useRouter } from 'next/navigation';
 import { FunctionComponent, useContext } from 'react';
+import { useFetchUserProfileQuery } from '@smart-safety-solutions/apis';
 
 const HeaderBar: FunctionComponent = () => {
   const router = useRouter();
 
   const {
     logOut,
-    state: { firstName },
+    state: { userId },
   } = useContext(SessionContext);
 
+  const { data } = useFetchUserProfileQuery(userId, { skip: !userId });
+  const email = data?.email;
+
+  /**
+   * Clears the session and navigates to login.
+   */
   const handleLogout = () => {
     logOut();
     router.push('/login');
@@ -60,7 +67,7 @@ const HeaderBar: FunctionComponent = () => {
         <NavigationMenu delayDuration={50}>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>{firstName}</NavigationMenuTrigger>
+              <NavigationMenuTrigger>{email}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul>
                   <li>

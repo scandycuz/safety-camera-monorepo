@@ -97,3 +97,34 @@ export interface Notification extends ApiNotification {
 }
 
 export type NotificationsResponse = PaginatedResponse<Notification>;
+
+export interface UserProfileResponse {
+  readonly id: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly tenantId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly customerId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly email: string;
+  readonly name: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly createdTime: number;
+  readonly additionalInfo: {
+    readonly description: '';
+    readonly defaultDashboardId?: string;
+    readonly defaultDashboardFullscreen: boolean;
+    readonly homeDashboardId?: null;
+    readonly homeDashboardHideToolbar?: boolean;
+    readonly userCredentialsEnabled?: boolean;
+    readonly failedLoginAttempts: 0;
+    readonly lastLoginTs: number;
+  };
+}
