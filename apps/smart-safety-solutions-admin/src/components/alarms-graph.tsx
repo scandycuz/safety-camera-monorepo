@@ -13,10 +13,8 @@ import {
   ChartTooltipContent,
 } from '@smart-safety-solutions/components';
 import dayjs from 'dayjs';
-import { theme } from '../../tailwind.config';
 import { useFetchNotificationsQuery } from '@smart-safety-solutions/apis';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { getThemeColor } from '@smart-safety-solutions/utils';
 
 dayjs.extend(advancedFormat);
 

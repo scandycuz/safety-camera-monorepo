@@ -63,5 +63,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-  getThemeColor: (color) => this.theme.colors[color],
 };

@@ -1,5 +1,4 @@
 'use client';
-import { images } from '@smart-safety-solutions/assets';
 import {
   Button,
   DropdownMenu,
@@ -15,7 +14,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  SidebarTrigger,
 } from '@smart-safety-solutions/components';
 import { Bell } from 'lucide-react';
 import { SessionContext } from '@smart-safety-solutions/contexts';
