@@ -11,6 +11,13 @@ export interface QueryParams {
   readonly startTime?: string;
 }
 
+export interface PaginatedResponse<T> {
+  readonly data: ReadonlyArray<T>;
+  readonly totalPage: number;
+  readonly totalElement: number;
+  readonly hasNext: boolean;
+}
+
 export interface SessionTokenBody {
   readonly username: string;
   readonly password: string;
@@ -47,3 +54,46 @@ export interface AlarmsResponse {
     readonly entityType: string;
   };
 }
+
+export interface ApiNotification {
+  readonly id: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly requestId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly recepientId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly type: string;
+  readonly deliveryMethod: string;
+  readonly subject: string;
+  readonly text: string;
+  readonly info: {
+    readonly dashboardId: {
+      readonly id: string;
+      readonly entityType: string;
+    };
+    readonly stateEntityId: {
+      readonly id: string;
+      readonly entityType: string;
+    };
+    readonly alarmOriginator: {
+      readonly id: string;
+      readonly entityType: string;
+    };
+    readonly action: 'created' | 'cleared';
+    readonly type: string;
+  };
+  readonly status: string;
+  readonly createdTime: number;
+}
+
+export interface Notification extends ApiNotification {
+  readonly readableDate: string;
+}
+
+export type NotificationsResponse = PaginatedResponse<Notification>;

@@ -8,5 +8,9 @@
       "import": "./index.mjs",
       "require": "./index.js"
     }
+  },
+  "dependencies": {
+    "lucide-react": "^0.471.0",
+    "recharts": "^2.15.0"
   }
 }

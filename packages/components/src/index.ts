@@ -1,5 +1,7 @@
 export * from './lib/base/ui/avatar';
 export * from './lib/base/ui/button';
+export * from './lib/base/ui/card';
+export * from './lib/base/ui/chart';
 export * from './lib/base/ui/collapsible';
 export * from './lib/base/ui/dropdown-menu';
 export * from './lib/base/ui/input';
