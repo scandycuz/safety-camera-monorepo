@@ -53,7 +53,7 @@ const AlertsGraph: FunctionComponent = () => {
     return result;
   }, {});
 
-  // iterate through alerts and update date array with alert values
+  // iterate through alert data and update date object with alert values
   const alertsByDay = data.data.reduce((result, item) => {
     const {
       readableDate,
@@ -65,7 +65,7 @@ const AlertsGraph: FunctionComponent = () => {
     return result;
   }, last30DaysObj);
 
-  // convert alerts object to chart data array
+  // convert alert data object to array for chart
   const chartData = Object.entries(alertsByDay).reduce(
     (result: ChartData, [date, alerts]) => {
       return [...result, { date, alerts }];
@@ -96,14 +96,14 @@ const AlertsGraph: FunctionComponent = () => {
             <XAxis dataKey="date" tickLine={false} axisLine={false} reversed />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
+              content={<ChartTooltipContent indicator="dot" hideIndicator />}
             />
             <Area
               dataKey="alerts"
               type="linear"
               fill="#f87171"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="#fca5a5"
             />
           </AreaChart>
         </ChartContainer>
