@@ -8,9 +8,12 @@ import { useLogInMutation } from '@smart-safety-solutions/apis';
 import Image from 'next/image';
 import { Form, Formik } from 'formik';
 import { parseRtkQueryEndpointErrorMessage } from '@smart-safety-solutions/utils';
+import { useClearSession } from '../../hooks/use-clear-session';
 
 const Login: FunctionComponent = () => {
   const router = useRouter();
+
+  useClearSession();
 
   const [
     logIn,

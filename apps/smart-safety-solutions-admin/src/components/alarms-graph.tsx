@@ -92,7 +92,7 @@ const AlarmsGraph: FunctionComponent = () => {
             <XAxis dataKey="date" tickLine={false} axisLine={false} reversed />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+              content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
               dataKey="alerts"
