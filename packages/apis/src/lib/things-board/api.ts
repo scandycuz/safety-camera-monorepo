@@ -9,6 +9,8 @@ import {
   SessionTokenResponse,
   ApiNotification,
   UserProfileResponse,
+  DeviceQueryParams,
+  DevicesResponse,
 } from './types';
 import { baseQueryWithReauth } from './utils';
 import dayjs from 'dayjs';
@@ -88,6 +90,20 @@ const api = createApi({
     fetchUserProfile: build.query<UserProfileResponse, string>({
       query: (userId) => ({
         url: `api/user/${userId}`,
+      }),
+      onQueryStarted: async (body, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+    }),
+    fetchDevices: build.query<DevicesResponse, DeviceQueryParams>({
+      query: ({ customerId, ...params }) => ({
+        url: `api/customer/${customerId}/deviceInfos`,
+        params,
       }),
       onQueryStarted: async (body, { queryFulfilled }) => {
         try {

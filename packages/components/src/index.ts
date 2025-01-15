@@ -11,4 +11,5 @@ export * from './lib/base/ui/separator';
 export * from './lib/base/ui/sheet';
 export * from './lib/base/ui/skeleton';
 export * from './lib/base/ui/sidebar';
+export * from './lib/base/ui/table';
 export * from './lib/base/ui/tooltip';

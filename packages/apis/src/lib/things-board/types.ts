@@ -8,6 +8,7 @@ export interface QueryParams {
   readonly page: number;
   readonly textSearch?: string;
   readonly sortOrder?: SortOrder;
+  readonly sortProperty?: string;
   readonly startTime?: string;
 }
 
@@ -128,3 +129,55 @@ export interface UserProfileResponse {
     readonly lastLoginTs: number;
   };
 }
+
+export interface DeviceQueryParams extends QueryParams {
+  readonly customerId: string;
+  readonly deviceProfileId?: string;
+  readonly active?: boolean;
+  readonly textSearch?: string;
+}
+
+export interface Device {
+  readonly createdTime: string;
+  readonly name: string;
+  readonly type: string;
+  readonly label: string;
+  readonly firmwareId?: string;
+  readonly softwareId?: string;
+  readonly externalId?: string;
+  readonly customerTitle: string;
+  readonly customerIsPublic: boolean;
+  readonly deviceProfileName: string;
+  readonly active: boolean;
+  readonly id: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly tenantId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly customerId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly deviceProfileId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly additionalInfo: {
+    readonly gateway: boolean;
+    readonly overwriteActivityTime: boolean;
+    readonly description: string;
+  };
+  readonly deviceData: {
+    readonly configuration: {
+      readonly type: string;
+    };
+    readonly transportationConfiguration: {
+      readonly type: string;
+    };
+  };
+}
+
+export type DevicesResponse = PaginatedResponse<Device>;
