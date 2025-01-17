@@ -101,11 +101,11 @@ const api = createApi({
       },
     }),
     fetchDevices: build.query<DevicesResponse, DeviceQueryParams>({
-      query: ({ customerId, ...params }) => ({
+      query: ({ customerId, pageSize = 100, page = 0, ...params }) => ({
         url: `api/customer/${customerId}/deviceInfos`,
-        params,
+        params: { pageSize, page, ...params },
       }),
-      onQueryStarted: async (body, { queryFulfilled }) => {
+      onQueryStarted: async (params, { queryFulfilled }) => {
         try {
           await queryFulfilled;
         } catch (err) {
@@ -121,6 +121,7 @@ export const {
   useFetchAlarmsQuery,
   useFetchNotificationsQuery,
   useFetchUserProfileQuery,
+  useFetchDevicesQuery,
   useLogInMutation,
 } = api;
 

@@ -4,8 +4,8 @@ export enum SortOrder {
 }
 
 export interface QueryParams {
-  readonly pageSize: number;
-  readonly page: number;
+  readonly pageSize?: number;
+  readonly page?: number;
   readonly textSearch?: string;
   readonly sortOrder?: SortOrder;
   readonly sortProperty?: string;
