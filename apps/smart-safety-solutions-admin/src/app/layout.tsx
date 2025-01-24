@@ -1,4 +1,5 @@
 import { SessionProvider } from '@smart-safety-solutions/contexts';
+import AppProvider from '../contexts/app/provider';
 import { ApiProvider } from '@smart-safety-solutions/apis';
 import './global.css';
 
@@ -10,11 +11,13 @@ export const metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
-      <ApiProvider>
-        <html lang="en">
-          <body>{children}</body>
-        </html>
-      </ApiProvider>
+      <AppProvider>
+        <ApiProvider>
+          <html lang="en">
+            <body>{children}</body>
+          </html>
+        </ApiProvider>
+      </AppProvider>
     </SessionProvider>
   );
 };

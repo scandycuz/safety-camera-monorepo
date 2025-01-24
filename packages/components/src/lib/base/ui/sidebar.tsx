@@ -7,7 +7,7 @@ import { cn } from '../../utils';
 import { Button } from './button';
 import { Input } from './input';
 import { Separator } from './separator';
-import { Sheet, SheetContent } from './sheet';
+import { SheetProvider, SheetContent } from './sheet';
 import { Skeleton } from './skeleton';
 import {
   Tooltip,
@@ -191,7 +191,11 @@ const Sidebar = React.forwardRef<
 
     if (isMobile) {
       return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+        <SheetProvider
+          open={openMobile}
+          onOpenChange={setOpenMobile}
+          {...props}
+        >
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
@@ -205,7 +209,7 @@ const Sidebar = React.forwardRef<
           >
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
-        </Sheet>
+        </SheetProvider>
       );
     }
 

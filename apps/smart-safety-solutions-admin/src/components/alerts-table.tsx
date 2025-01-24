@@ -8,9 +8,12 @@ import {
   TableRow,
 } from '@smart-safety-solutions/components';
 import dayjs from 'dayjs';
-import { FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useContext, useMemo } from 'react';
+import AppContext from '../contexts/app/context';
 
 const AlertsTable: FunctionComponent = () => {
+  const { setisAlertsSheetOpen } = useContext(AppContext);
+
   const thirtyDaysAgo = useMemo(
     () => dayjs().subtract(30, 'days').valueOf(),
     []
@@ -24,6 +27,13 @@ const AlertsTable: FunctionComponent = () => {
       startTime: thirtyDaysAgo,
     }
   );
+
+  /**
+   * Opens the alert detail sheet.
+   */
+  const handleOpenAlertsSheet = () => {
+    setisAlertsSheetOpen(true);
+  };
 
   if (!alarmData.length) {
     return null;
@@ -42,7 +52,11 @@ const AlertsTable: FunctionComponent = () => {
       <TableBody>
         {[...alarmData].reverse().map((alarm) => {
           return (
-            <TableRow key={`formatted-alert-${alarm.id.id}`}>
+            <TableRow
+              key={`formatted-alert-${alarm.id.id}`}
+              className="cursor-pointer"
+              onClick={handleOpenAlertsSheet}
+            >
               <TableCell>{alarm.readableDate}</TableCell>
               <TableCell>{alarm.originatorName}</TableCell>
               <TableCell>
