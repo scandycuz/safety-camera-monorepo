@@ -9,7 +9,8 @@ export interface QueryParams {
   readonly textSearch?: string;
   readonly sortOrder?: SortOrder;
   readonly sortProperty?: string;
-  readonly startTime?: string;
+  readonly startTime?: number;
+  readonly endTime?: number;
 }
 
 export interface PaginatedResponse<T> {
@@ -49,12 +50,60 @@ export interface AlarmsQueryParams extends QueryParams {
     | 'status';
 }
 
-export interface AlarmsResponse {
+export interface ApiAlarm {
   readonly id: {
     readonly id: string;
     readonly entityType: string;
   };
+  readonly tenantId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly customerId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly originator: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly assigneeId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly assignee: {
+    readonly id: string;
+    readonly entityType: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly email: string;
+  };
+  readonly name: string;
+  readonly details: object;
+  readonly propogateRelationTypes: ReadonlyArray<string>;
+  readonly createdTime: number;
+  readonly type: string;
+  readonly severity: string;
+  readonly acknowledged: boolean;
+  readonly cleared: boolean;
+  readonly startTs: number;
+  readonly endTs: number;
+  readonly ackTs: number;
+  readonly clearTs: number;
+  readonly assignTs: number;
+  readonly propogate: boolean;
+  readonly propogateToOwner: boolean;
+  readonly propogateToTenant: boolean;
+  readonly originatorName: string;
+  readonly originatorLabel: string;
+  readonly status: string;
 }
+
+export interface Alarm extends ApiAlarm {
+  readonly readableDate: string;
+}
+
+export type AlarmsResponse = PaginatedResponse<Alarm>;
 
 export interface ApiNotification {
   readonly id: {

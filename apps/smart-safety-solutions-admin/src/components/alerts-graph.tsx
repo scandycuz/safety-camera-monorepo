@@ -13,7 +13,7 @@ import {
   ChartTooltipContent,
 } from '@smart-safety-solutions/components';
 import dayjs from 'dayjs';
-import { useFetchNotificationsQuery } from '@smart-safety-solutions/apis';
+import { SortOrder, useFetchAlarmsQuery } from '@smart-safety-solutions/apis';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 dayjs.extend(advancedFormat);
@@ -30,7 +30,16 @@ const chartConfig: ChartConfig = {
 };
 
 const AlertsGraph: FunctionComponent = () => {
-  const { data = { data: [] } } = useFetchNotificationsQuery();
+  const thirtyDaysAgo = dayjs().subtract(30, 'day').valueOf();
+  const { data = { data: [] } } = useFetchAlarmsQuery({
+    page: 0,
+    pageSize: 1000,
+    sortProperty: 'createdTime',
+    sortOrder: SortOrder.DESC,
+    startTime: thirtyDaysAgo,
+  });
+
+  console.log('alarms: ', data.data);
 
   // construct array of last 30 days with default alert value of 0
   const last30DaysArr = Array.from({ length: 30 }, (_, i) => {
@@ -55,12 +64,9 @@ const AlertsGraph: FunctionComponent = () => {
 
   // iterate through alert data and update date object with alert values
   const alertsByDay = data.data.reduce((result, item) => {
-    const {
-      readableDate,
-      info: { action },
-    } = item;
+    const { readableDate } = item;
 
-    if (action === 'created') result[readableDate] += 1;
+    result[readableDate] += 1;
 
     return result;
   }, last30DaysObj);

@@ -11,6 +11,8 @@ import {
   UserProfileResponse,
   DeviceQueryParams,
   DevicesResponse,
+  Alarm,
+  ApiAlarm,
 } from './types';
 import { baseQueryWithReauth } from './utils';
 import dayjs from 'dayjs';
@@ -23,7 +25,7 @@ const api = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     fetchAlarms: build.query<AlarmsResponse, AlarmsQueryParams | void>({
-      query: (params: AlarmsQueryParams = { pageSize: 20, page: 0 }) => ({
+      query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
         url: 'api/v2/alarms',
         params,
       }),
@@ -34,6 +36,24 @@ const api = createApi({
           console.log(err);
           // TODO: set error toast message
         }
+      },
+      transformResponse: (
+        resp: PaginatedResponse<ApiAlarm>
+      ): PaginatedResponse<Alarm> => {
+        const formattedData = resp.data.map((item) => {
+          const parsedDate = dayjs(item.createdTime);
+          const readableDate = parsedDate.format('MMM Do');
+
+          return {
+            ...item,
+            readableDate,
+          };
+        });
+
+        return {
+          ...resp,
+          data: formattedData,
+        };
       },
     }),
     fetchNotifications: build.query<
