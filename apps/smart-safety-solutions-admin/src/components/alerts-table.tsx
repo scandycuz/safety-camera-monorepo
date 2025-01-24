@@ -8,10 +8,13 @@ import {
   TableRow,
 } from '@smart-safety-solutions/components';
 import dayjs from 'dayjs';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 
 const AlertsTable: FunctionComponent = () => {
-  const thirtyDaysAgo = dayjs().subtract(30, 'day').valueOf();
+  const thirtyDaysAgo = useMemo(
+    () => dayjs().subtract(30, 'days').valueOf(),
+    []
+  );
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
     {
       page: 0,

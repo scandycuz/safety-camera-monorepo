@@ -3,6 +3,7 @@ import { SessionContext } from '@smart-safety-solutions/contexts';
 import AlertsGraph from '../../components/alerts-graph';
 import { FunctionComponent, useContext, useEffect } from 'react';
 import AlertsTable from '../../components/alerts-table';
+import AlertsSidebar from '../../components/alerts-sidebar';
 
 const Dashboard: FunctionComponent = () => {
   const { populateSession } = useContext(SessionContext);
@@ -17,6 +18,8 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <div className="flex flex-1 flex-col p-4 gap-4">
+      <AlertsSidebar />
+
       <AlertsGraph />
 
       <div className="px-4">

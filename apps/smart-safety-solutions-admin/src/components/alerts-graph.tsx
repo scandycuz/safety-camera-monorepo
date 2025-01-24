@@ -1,5 +1,5 @@
 'use_client';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import {
   Card,
@@ -30,7 +30,10 @@ const chartConfig: ChartConfig = {
 };
 
 const AlertsGraph: FunctionComponent = () => {
-  const thirtyDaysAgo = dayjs().subtract(30, 'day').valueOf();
+  const thirtyDaysAgo = useMemo(
+    () => dayjs().subtract(30, 'days').valueOf(),
+    []
+  );
   const { data = { data: [] } } = useFetchAlarmsQuery({
     page: 0,
     pageSize: 1000,
