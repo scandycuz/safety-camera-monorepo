@@ -3,16 +3,16 @@ import {
   FetchArgs,
   fetchBaseQuery,
   FetchBaseQueryError,
-} from '@reduxjs/toolkit/query';
-import Cookies from 'js-cookie';
-import { logOut, receiveSession } from '@smart-safety-solutions/contexts';
-import { Mutex } from 'async-mutex';
+} from "@reduxjs/toolkit/query";
+import Cookies from "js-cookie";
+import { logOut, receiveSession } from "@smart-safety-solutions/contexts";
+import { Mutex } from "async-mutex";
 import {
   SessionCookies,
   SessionTokens,
-} from '@smart-safety-solutions/contexts';
+} from "@smart-safety-solutions/contexts";
 
-const baseUrl = 'https://www.acusaif.com/';
+const baseUrl = "https://www.acusaif.com/";
 
 // mutex to pause calls while refreshing session
 const mutex = new Mutex();
@@ -22,7 +22,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers: Headers) => {
     const token = Cookies.get(SessionCookies.token);
 
-    if (token) headers.set('X-Authorization', `Bearer ${token}`);
+    if (token) headers.set("X-Authorization", `Bearer ${token}`);
 
     return headers;
   },
@@ -48,8 +48,8 @@ export const baseQueryWithReauth: BaseQueryFn<
         const refreshToken = Cookies.get(SessionCookies.refreshToken);
         const refreshResult = await baseQuery(
           {
-            url: '/api/auth/token',
-            method: 'POST',
+            url: "/api/auth/token",
+            method: "POST",
             body: { refreshToken },
           },
           api,

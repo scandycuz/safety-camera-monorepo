@@ -1,4 +1,4 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi } from "@reduxjs/toolkit/query/react";
 import {
   AlarmsQueryParams,
   AlarmsResponse,
@@ -13,22 +13,28 @@ import {
   DevicesResponse,
   Alarm,
   ApiAlarm,
-} from './types';
-import { baseQueryWithReauth } from './utils';
-import dayjs from 'dayjs';
-import { receiveSession } from '@smart-safety-solutions/contexts';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
+  AlarmResponse,
+  AcknowledgeAlarmResponse,
+  Tag,
+} from "./types";
+import { baseQueryWithReauth } from "./utils";
+import dayjs from "dayjs";
+import { receiveSession } from "@smart-safety-solutions/contexts";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import { transformApiAlarm, transformApiNotificiation } from "./transforms";
 
 dayjs.extend(advancedFormat);
 
 const api = createApi({
   baseQuery: baseQueryWithReauth,
+  tagTypes: [Tag.Alarm, Tag.Notification],
   endpoints: (build) => ({
     fetchAlarms: build.query<AlarmsResponse, AlarmsQueryParams | void>({
       query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
-        url: 'api/v2/alarms',
+        url: "api/v2/alarms",
         params,
       }),
+      providesTags: [Tag.Alarm],
       onQueryStarted: async (params, { queryFulfilled }) => {
         try {
           await queryFulfilled;
@@ -41,13 +47,7 @@ const api = createApi({
         resp: PaginatedResponse<ApiAlarm>
       ): PaginatedResponse<Alarm> => {
         const formattedData = resp.data.map((item) => {
-          const parsedDate = dayjs(item.createdTime);
-          const readableDate = parsedDate.format('MMM Do');
-
-          return {
-            ...item,
-            readableDate,
-          };
+          return transformApiAlarm(item);
         });
 
         return {
@@ -56,14 +56,30 @@ const api = createApi({
         };
       },
     }),
+    fetchAlarm: build.query<AlarmResponse, string>({
+      query: (alarmId) => ({
+        url: `api/alarm/info/${alarmId}`,
+      }),
+      providesTags: [Tag.Alarm],
+      onQueryStarted: async (params, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+      transformResponse: transformApiAlarm,
+    }),
     fetchNotifications: build.query<
       NotificationsResponse,
       AlarmsQueryParams | void
     >({
       query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
-        url: 'api/notifications',
+        url: "api/notifications",
         params,
       }),
+      providesTags: [Tag.Notification],
       onQueryStarted: async (params, { queryFulfilled }) => {
         try {
           await queryFulfilled;
@@ -76,13 +92,7 @@ const api = createApi({
         resp: PaginatedResponse<ApiNotification>
       ): PaginatedResponse<Notification> => {
         const formattedData = resp.data.map((item) => {
-          const parsedDate = dayjs(item.createdTime);
-          const readableDate = parsedDate.format('MMM Do');
-
-          return {
-            ...item,
-            readableDate,
-          };
+          return transformApiNotificiation(item);
         });
 
         return {
@@ -93,8 +103,8 @@ const api = createApi({
     }),
     logIn: build.mutation<SessionTokenResponse, SessionTokenBody>({
       query: (body) => ({
-        url: 'api/auth/login',
-        method: 'POST',
+        url: "api/auth/login",
+        method: "POST",
         body,
       }),
       onQueryStarted: async (body, { queryFulfilled }) => {
@@ -106,6 +116,22 @@ const api = createApi({
           // TODO: set error toast message
         }
       },
+    }),
+    acknowledgAlarm: build.mutation<AcknowledgeAlarmResponse, string>({
+      query: (alarmId) => ({
+        url: `/api/alarm/${alarmId}/ack`,
+        method: "POST",
+      }),
+      invalidatesTags: [Tag.Alarm],
+      onQueryStarted: async (body, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+      transformResponse: transformApiAlarm,
     }),
     fetchUserProfile: build.query<UserProfileResponse, string>({
       query: (userId) => ({
@@ -138,7 +164,9 @@ const api = createApi({
 });
 
 export const {
+  useFetchAlarmQuery,
   useFetchAlarmsQuery,
+  useAcknowledgAlarmMutation,
   useFetchNotificationsQuery,
   useFetchUserProfileQuery,
   useFetchDevicesQuery,

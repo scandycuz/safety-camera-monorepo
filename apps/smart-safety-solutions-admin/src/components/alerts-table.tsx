@@ -1,4 +1,4 @@
-import { SortOrder, useFetchAlarmsQuery } from '@smart-safety-solutions/apis';
+import { SortOrder, useFetchAlarmsQuery } from "@smart-safety-solutions/apis";
 import {
   Table,
   TableBody,
@@ -6,23 +6,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@smart-safety-solutions/components';
-import dayjs from 'dayjs';
-import { FunctionComponent, useContext, useMemo } from 'react';
-import AppContext from '../contexts/app/context';
+} from "@smart-safety-solutions/components";
+import dayjs from "dayjs";
+import { FunctionComponent, useContext, useMemo } from "react";
+import AppContext from "../contexts/app/context";
 
 const AlertsTable: FunctionComponent = () => {
-  const { setisAlertsSheetOpen } = useContext(AppContext);
+  const { setisAlertsSheetOpen, setSelectedAlert } = useContext(AppContext);
 
   const thirtyDaysAgo = useMemo(
-    () => dayjs().subtract(30, 'days').valueOf(),
+    () => dayjs().subtract(30, "days").valueOf(),
     []
   );
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
     {
       page: 0,
       pageSize: 1000,
-      sortProperty: 'createdTime',
+      sortProperty: "createdTime",
       sortOrder: SortOrder.ASC,
       startTime: thirtyDaysAgo,
     }
@@ -31,7 +31,8 @@ const AlertsTable: FunctionComponent = () => {
   /**
    * Opens the alert detail sheet.
    */
-  const handleOpenAlertsSheet = () => {
+  const handleOpenAlertsSheet = (alertId: string) => {
+    setSelectedAlert(alertId);
     setisAlertsSheetOpen(true);
   };
 
@@ -55,18 +56,20 @@ const AlertsTable: FunctionComponent = () => {
             <TableRow
               key={`formatted-alert-${alarm.id.id}`}
               className="cursor-pointer"
-              onClick={handleOpenAlertsSheet}
+              onClick={() => handleOpenAlertsSheet(alarm.id.id)}
             >
-              <TableCell>{alarm.readableDate}</TableCell>
+              <TableCell>
+                {alarm.readableDate}, {alarm.readableTime}
+              </TableCell>
               <TableCell>{alarm.originatorName}</TableCell>
               <TableCell>
-                {alarm.originatorLabel.replace('Cam id:', '')}
+                {alarm.originatorLabel.replace("Cam id:", "")}
               </TableCell>
               <TableCell className="text-right w-[200px]">
                 {alarm.acknowledged ? (
                   <span className="text-green-500 font-semibold">RESOLVED</span>
                 ) : (
-                  <span className="text-red-500">PENDING RESOLUTION</span>
+                  <span className="text-red-500 font-semibold">PENDING</span>
                 )}
               </TableCell>
             </TableRow>

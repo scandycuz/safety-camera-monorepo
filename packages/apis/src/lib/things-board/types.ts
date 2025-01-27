@@ -1,6 +1,11 @@
+export enum Tag {
+  Alarm = "Alarm",
+  Notification = "Notification",
+}
+
 export enum SortOrder {
-  ASC = 'ASC',
-  DESC = 'DESC',
+  ASC = "ASC",
+  DESC = "DESC",
 }
 
 export interface QueryParams {
@@ -32,22 +37,22 @@ export interface SessionTokenResponse {
 
 export interface AlarmsQueryParams extends QueryParams {
   readonly statusList?: ReadonlyArray<
-    'ANY' | 'ACTIVE' | 'CLEARED' | 'ACK' | 'UNACK'
+    "ANY" | "ACTIVE" | "CLEARED" | "ACK" | "UNACK"
   >;
   readonly typeList?: ReadonlyArray<string>;
   readonly assigneeId?: string;
   readonly severityList?: ReadonlyArray<
-    'CRITICAL' | 'MAJOR' | 'MINOR' | 'WARNING' | 'INDETERMINATE'
+    "CRITICAL" | "MAJOR" | "MINOR" | "WARNING" | "INDETERMINATE"
   >;
   readonly sortProperty?:
-    | 'createdTime'
-    | 'startTs'
-    | 'endTs'
-    | 'type'
-    | 'ackTs'
-    | 'clearTs'
-    | 'severity'
-    | 'status';
+    | "createdTime"
+    | "startTs"
+    | "endTs"
+    | "type"
+    | "ackTs"
+    | "clearTs"
+    | "severity"
+    | "status";
 }
 
 export interface ApiAlarm {
@@ -79,7 +84,11 @@ export interface ApiAlarm {
     readonly email: string;
   };
   readonly name: string;
-  readonly details: object;
+  readonly details: {
+    readonly image: string;
+    readonly latitude: string;
+    readonly longitude: string;
+  };
   readonly propogateRelationTypes: ReadonlyArray<string>;
   readonly createdTime: number;
   readonly type: string;
@@ -99,11 +108,19 @@ export interface ApiAlarm {
   readonly status: string;
 }
 
-export interface Alarm extends ApiAlarm {
+export interface Alarm extends Omit<ApiAlarm, "details"> {
   readonly readableDate: string;
+  readonly readableTime: string;
+  readonly details: {
+    readonly image: string;
+    readonly latitude: number;
+    readonly longitude: number;
+  };
 }
 
 export type AlarmsResponse = PaginatedResponse<Alarm>;
+
+export type AlarmResponse = Alarm;
 
 export interface ApiNotification {
   readonly id: {
@@ -135,7 +152,7 @@ export interface ApiNotification {
       readonly id: string;
       readonly entityType: string;
     };
-    readonly action: 'created' | 'cleared';
+    readonly action: "created" | "cleared";
     readonly type: string;
   };
   readonly status: string;
@@ -144,6 +161,7 @@ export interface ApiNotification {
 
 export interface Notification extends ApiNotification {
   readonly readableDate: string;
+  readonly readableTime: string;
 }
 
 export type NotificationsResponse = PaginatedResponse<Notification>;
@@ -168,7 +186,7 @@ export interface UserProfileResponse {
   readonly phone: string;
   readonly createdTime: number;
   readonly additionalInfo: {
-    readonly description: '';
+    readonly description: "";
     readonly defaultDashboardId?: string;
     readonly defaultDashboardFullscreen: boolean;
     readonly homeDashboardId?: null;
@@ -230,3 +248,5 @@ export interface Device {
 }
 
 export type DevicesResponse = PaginatedResponse<Device>;
+
+export type AcknowledgeAlarmResponse = Alarm;
