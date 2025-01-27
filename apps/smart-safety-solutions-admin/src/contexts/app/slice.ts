@@ -11,11 +11,9 @@ const appSlice = createSlice({
   name: "app",
   reducers: {
     setisAlertsSheetOpen: (state, { payload }: PayloadAction<boolean>) => {
-      console.log("payload: ", payload);
       state.isAlertsSheetOpen = payload;
     },
     setSelectedAlert: (state, { payload }: PayloadAction<string>) => {
-      console.log("payload: ", payload);
       state.selectedAlert = payload;
     },
   },

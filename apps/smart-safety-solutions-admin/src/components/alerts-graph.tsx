@@ -42,8 +42,6 @@ const AlertsGraph: FunctionComponent = () => {
     startTime: thirtyDaysAgo,
   });
 
-  console.log("alarms: ", data.data);
-
   // construct array of last 30 days with default alert value of 0
   const last30DaysArr = Array.from({ length: 30 }, (_, i) => {
     const today = dayjs();
