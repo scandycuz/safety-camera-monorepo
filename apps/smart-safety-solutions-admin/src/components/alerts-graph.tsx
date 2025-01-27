@@ -1,6 +1,6 @@
-'use_client';
-import { FunctionComponent, useMemo } from 'react';
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+"use_client";
+import { FunctionComponent, useMemo } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -11,10 +11,10 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@smart-safety-solutions/components';
-import dayjs from 'dayjs';
-import { SortOrder, useFetchAlarmsQuery } from '@smart-safety-solutions/apis';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
+} from "@smart-safety-solutions/components";
+import dayjs from "dayjs";
+import { SortOrder, useFetchAlarmsQuery } from "@smart-safety-solutions/apis";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
 
@@ -25,30 +25,30 @@ type ChartData = Array<{
 
 const chartConfig: ChartConfig = {
   alerts: {
-    label: 'Alerts',
+    label: "Alerts",
   },
 };
 
 const AlertsGraph: FunctionComponent = () => {
   const thirtyDaysAgo = useMemo(
-    () => dayjs().subtract(30, 'days').valueOf(),
+    () => dayjs().subtract(30, "days").valueOf(),
     []
   );
   const { data = { data: [] } } = useFetchAlarmsQuery({
     page: 0,
     pageSize: 1000,
-    sortProperty: 'createdTime',
+    sortProperty: "createdTime",
     sortOrder: SortOrder.DESC,
     startTime: thirtyDaysAgo,
   });
 
-  console.log('alarms: ', data.data);
+  console.log("alarms: ", data.data);
 
   // construct array of last 30 days with default alert value of 0
   const last30DaysArr = Array.from({ length: 30 }, (_, i) => {
     const today = dayjs();
-    const currentDay = today.subtract(i, 'days');
-    const readableDate = currentDay.format('MMM Do');
+    const currentDay = today.subtract(i, "days");
+    const readableDate = currentDay.format("MMM Do");
 
     return {
       [readableDate]: 0,
@@ -91,7 +91,7 @@ const AlertsGraph: FunctionComponent = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="max-h-80 min-w-full">
+        <ChartContainer config={chartConfig} className="max-h-64 min-w-full">
           <AreaChart
             accessibilityLayer
             className="overflow-visible"

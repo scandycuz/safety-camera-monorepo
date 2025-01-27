@@ -4,7 +4,7 @@ import { Alarm, ApiAlarm, ApiNotification, Notification } from "./types";
 export const transformApiAlarm = (resp: ApiAlarm): Alarm => {
   const parsedDate = dayjs(resp.createdTime);
   const readableDate = parsedDate.format("MMM Do");
-  const readableTime = parsedDate.format("hh:mm:ss A");
+  const readableTime = parsedDate.format("h:mm:ss A");
 
   return {
     ...resp,
@@ -23,7 +23,7 @@ export const transformApiNotificiation = (
 ): Notification => {
   const parsedDate = dayjs(notification.createdTime);
   const readableDate = parsedDate.format("MMM Do");
-  const readableTime = parsedDate.format("hh:mm:ss A");
+  const readableTime = parsedDate.format("h:mm:ss A");
 
   return {
     ...notification,
