@@ -1,6 +1,7 @@
 export interface SessionState {
   readonly isLoggedIn: boolean;
   readonly userId: string;
+  readonly customerId: string;
 }
 
 export interface SessionStoreState {
@@ -13,8 +14,8 @@ export interface SessionTokens {
 }
 
 export enum SessionCookies {
-  token = 'token',
-  refreshToken = 'refreshToken',
+  token = "token",
+  refreshToken = "refreshToken",
 }
 
 export interface DecodedSessionToken {

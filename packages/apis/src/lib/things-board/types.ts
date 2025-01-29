@@ -152,11 +152,17 @@ export interface ApiNotification {
       readonly id: string;
       readonly entityType: string;
     };
+    readonly alarmId: string;
     readonly action: "created" | "cleared";
+    readonly acknowledged: boolean;
     readonly type: string;
   };
-  readonly status: string;
+  readonly status: "SENT" | "READ";
   readonly createdTime: number;
+}
+
+export interface NotificationsQueryParams extends QueryParams {
+  readonly unreadOnly?: boolean;
 }
 
 export interface Notification extends ApiNotification {

@@ -16,6 +16,7 @@ import {
   AlarmResponse,
   AcknowledgeAlarmResponse,
   Tag,
+  NotificationsQueryParams,
 } from "./types";
 import { baseQueryWithReauth } from "./utils";
 import dayjs from "dayjs";
@@ -73,9 +74,11 @@ const api = createApi({
     }),
     fetchNotifications: build.query<
       NotificationsResponse,
-      AlarmsQueryParams | void
+      NotificationsQueryParams | void
     >({
-      query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
+      query: (
+        params: NotificationsQueryParams = { pageSize: 100, page: 0 }
+      ) => ({
         url: "api/notifications",
         params,
       }),
@@ -133,6 +136,21 @@ const api = createApi({
       },
       transformResponse: transformApiAlarm,
     }),
+    readNotification: build.mutation<void, string>({
+      query: (notificationId) => ({
+        url: `/api/notification/${notificationId}/read`,
+        method: "PUT",
+      }),
+      invalidatesTags: [Tag.Notification],
+      onQueryStarted: async (body, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+    }),
     fetchUserProfile: build.query<UserProfileResponse, string>({
       query: (userId) => ({
         url: `api/user/${userId}`,
@@ -166,6 +184,7 @@ const api = createApi({
 export const {
   useFetchAlarmQuery,
   useFetchAlarmsQuery,
+  useReadNotificationMutation,
   useAcknowledgAlarmMutation,
   useFetchNotificationsQuery,
   useFetchUserProfileQuery,

@@ -1,0 +1,112 @@
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import {
+  SortOrder,
+  useFetchNotificationsQuery,
+  useReadNotificationMutation,
+} from "@smart-safety-solutions/apis";
+import {
+  Button,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@smart-safety-solutions/components";
+import { SquareArrowOutUpRight } from "lucide-react";
+import { Bell } from "lucide-react";
+import { FunctionComponent, useContext } from "react";
+import AppContext from "../contexts/app/context";
+import { cn } from "packages/components/src/lib/utils";
+
+const Notifications: FunctionComponent = () => {
+  const { setisAlertsSheetOpen, setSelectedAlert } = useContext(AppContext);
+
+  const [markAsRead] = useReadNotificationMutation();
+
+  const { data: { data: notifications } = {} } = useFetchNotificationsQuery({
+    pageSize: 50,
+    page: 0,
+    sortProperty: "createdTime",
+    sortOrder: SortOrder.DESC,
+  });
+
+  if (!notifications) {
+    return null;
+  }
+
+  // filter for only notifications for created alarms
+  const filteredNotifications = notifications
+    .filter((notification) => {
+      return notification.info.action === "created";
+    })
+    .slice(0, 5);
+
+  /**
+   * Selects the alert for the notification and opens the alert side sheet.
+   * TODO: Look into shadcn bug where clicking notifications more than twice
+   * disables all clicks (using timeout resolves issue).
+   */
+  const handleClickNotification = (notificationId: string, alarmId: string) => {
+    setTimeout(() => {
+      markAsRead(notificationId);
+      setSelectedAlert(alarmId);
+      setisAlertsSheetOpen(true);
+    });
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">
+          <Bell />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="w-64" align="end">
+        <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          {filteredNotifications.length ? (
+            filteredNotifications.map((notification, idx) => {
+              return (
+                <DropdownMenuItem
+                  key={`notification-${idx}`}
+                  className={cn(
+                    "cursor-pointer",
+                    notification.status === "READ"
+                      ? "opacity-50"
+                      : "opacity-100"
+                  )}
+                  onClick={() =>
+                    handleClickNotification(
+                      notification.id.id,
+                      notification.info.alarmId
+                    )
+                  }
+                >
+                  <div className="flex flex-1 flex-row justify-between items-center">
+                    <div className="flex flex-col">
+                      <div className="text-sm font-semibold">
+                        {notification.readableDate} {notification.readableTime}
+                      </div>
+                      <div className="font-medium">Missed harness</div>
+                    </div>
+
+                    <SquareArrowOutUpRight />
+                  </div>
+                </DropdownMenuItem>
+              );
+            })
+          ) : (
+            <DropdownMenuItem>
+              <div className="opacity-80">No current notifications</div>
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export default Notifications;

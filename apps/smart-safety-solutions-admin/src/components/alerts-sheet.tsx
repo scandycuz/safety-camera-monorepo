@@ -42,7 +42,7 @@ const AlertsSidebar: FunctionComponent = () => {
 
   return (
     <SheetContent
-      className="flex flex-col w-full sm:max-w-[580px] gap-5"
+      className="flex flex-col w-full sm:max-w-[580px] gap-4"
       onClose={handleClose}
     >
       <SheetHeader>
@@ -53,23 +53,33 @@ const AlertsSidebar: FunctionComponent = () => {
           </p>
         </SheetTitle>
 
-        <SheetDescription className="flex flex-col gap-4">
-          <div className="leading-6">
-            <p>
-              <strong>Employee: </strong>
-              {alert.originatorName}
-            </p>
-            <p>
-              <strong>Device: </strong>
-              {alert.originatorLabel.replace("Cam id: ", "")}
-            </p>
-          </div>
-        </SheetDescription>
+        <div className="flex flex-col">
+          <SheetDescription className="mt-none leading-7">
+            <strong>Employee: </strong>
+            {alert.originatorName}
+          </SheetDescription>
+          <SheetDescription className="leading-7">
+            <strong>Device: </strong>
+            {alert.originatorLabel.replace("Cam id: ", "")}
+          </SheetDescription>
+        </div>
       </SheetHeader>
 
-      <Map height={240} defaultCenter={markerPosition} defaultZoom={14}>
-        <Marker width={50} anchor={markerPosition} />
-      </Map>
+      <div className="flex flex-row gap-2">
+        <div
+          className="flex flex-1"
+          style={{
+            backgroundImage: `url("data:image/jpeg;base64,${alert.details.image}")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="flex flex-1">
+          <Map height={480} defaultCenter={markerPosition} defaultZoom={14}>
+            <Marker width={50} anchor={markerPosition} />
+          </Map>
+        </div>
+      </div>
 
       <SheetFooter className="flex flex-row justify-between sm:justify-between items-center min-h-[2.25rem]">
         <div>
