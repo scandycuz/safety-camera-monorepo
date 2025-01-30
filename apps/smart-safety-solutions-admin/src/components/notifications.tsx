@@ -1,6 +1,7 @@
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import {
   SortOrder,
+  useFetchAlarmsQuery,
   useFetchNotificationsQuery,
   useReadNotificationMutation,
 } from "@smart-safety-solutions/apis";
@@ -24,6 +25,13 @@ const Notifications: FunctionComponent = () => {
 
   const [markAsRead] = useReadNotificationMutation();
 
+  const { data: { data: alarms } = {} } = useFetchAlarmsQuery({
+    pageSize: 50,
+    page: 0,
+    sortProperty: "createdTime",
+    sortOrder: SortOrder.DESC,
+  });
+
   const { data: { data: notifications } = {} } = useFetchNotificationsQuery({
     pageSize: 50,
     page: 0,
@@ -31,14 +39,24 @@ const Notifications: FunctionComponent = () => {
     sortOrder: SortOrder.DESC,
   });
 
-  if (!notifications) {
+  if (!notifications || !alarms) {
     return null;
   }
 
-  // filter for only notifications for created alarms
-  const filteredNotifications = notifications
+  // filter for only notifications for created and unresolved alarms
+  const formattedNotifications = notifications
+    .map((notification) => {
+      const notificationAlarm = alarms?.find((alarm) => {
+        return notification.info.alarmId === alarm.id.id;
+      });
+
+      return { ...notification, alarm: notificationAlarm };
+    })
     .filter((notification) => {
-      return notification.info.action === "created";
+      const isCreated = notification.info.action === "created";
+      const isUnresolved = !notification.alarm?.acknowledged;
+
+      return isCreated && isUnresolved;
     })
     .slice(0, 5);
 
@@ -67,8 +85,8 @@ const Notifications: FunctionComponent = () => {
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {filteredNotifications.length ? (
-            filteredNotifications.map((notification, idx) => {
+          {formattedNotifications.length ? (
+            formattedNotifications.map((notification, idx) => {
               return (
                 <DropdownMenuItem
                   key={`notification-${idx}`}

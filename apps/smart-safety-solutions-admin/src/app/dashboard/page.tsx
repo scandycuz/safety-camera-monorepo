@@ -1,11 +1,11 @@
-'use client';
-import { SessionContext } from '@smart-safety-solutions/contexts';
-import AlertsGraph from '../../components/alerts-graph';
-import { FunctionComponent, useContext, useEffect } from 'react';
-import AlertsTable from '../../components/alerts-table';
-import AlertsSheet from '../../components/alerts-sheet';
-import { SheetProvider } from '@smart-safety-solutions/components';
-import AppContext from '../../contexts/app/context';
+"use client";
+import { SessionContext } from "@smart-safety-solutions/contexts";
+import AlertsGraph from "../../components/alerts-graph";
+import { FunctionComponent, useContext, useEffect } from "react";
+import AlertsTable from "../../components/alerts-table";
+import AlertsSheet from "../../components/alerts-sheet";
+import { SheetProvider } from "@smart-safety-solutions/components";
+import AppContext from "../../contexts/app/context";
 
 const Dashboard: FunctionComponent = () => {
   const { populateSession } = useContext(SessionContext);
