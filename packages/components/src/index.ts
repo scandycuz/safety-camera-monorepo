@@ -1,4 +1,5 @@
 export * from "./lib/base/ui/avatar";
+export * from "./lib/base/ui/badge";
 export * from "./lib/base/ui/button";
 export * from "./lib/base/ui/card";
 export * from "./lib/base/ui/chart";

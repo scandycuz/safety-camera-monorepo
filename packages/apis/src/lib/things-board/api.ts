@@ -125,7 +125,7 @@ const api = createApi({
         url: `/api/alarm/${alarmId}/ack`,
         method: "POST",
       }),
-      invalidatesTags: [Tag.Alarm],
+      invalidatesTags: [Tag.Alarm, Tag.Notification],
       onQueryStarted: async (body, { queryFulfilled }) => {
         try {
           await queryFulfilled;

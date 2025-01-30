@@ -6,6 +6,7 @@ import {
   useReadNotificationMutation,
 } from "@smart-safety-solutions/apis";
 import {
+  Badge,
   Button,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -57,8 +58,13 @@ const Notifications: FunctionComponent = () => {
       const isUnresolved = !notification.alarm?.acknowledged;
 
       return isCreated && isUnresolved;
-    })
-    .slice(0, 5);
+    });
+
+  const notificationCount = formattedNotifications.filter((notification) => {
+    return notification.status !== "READ";
+  }).length;
+
+  const truncatedNotifications = formattedNotifications.slice(0, 8);
 
   /**
    * Selects the alert for the notification and opens the alert side sheet.
@@ -75,8 +81,11 @@ const Notifications: FunctionComponent = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className="relative" asChild>
         <Button variant="outline">
+          <Badge className="absolute -top-2 -left-2" variant="destructive">
+            {notificationCount}
+          </Badge>
           <Bell />
         </Button>
       </DropdownMenuTrigger>
@@ -85,8 +94,8 @@ const Notifications: FunctionComponent = () => {
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {formattedNotifications.length ? (
-            formattedNotifications.map((notification, idx) => {
+          {truncatedNotifications.length ? (
+            truncatedNotifications.map((notification, idx) => {
               return (
                 <DropdownMenuItem
                   key={`notification-${idx}`}
