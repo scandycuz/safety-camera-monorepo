@@ -28,6 +28,8 @@ const AlertsTable: FunctionComponent = () => {
     }
   );
 
+  console.log("alerts: ", alarmData);
+
   /**
    * Opens the alert detail sheet.
    */

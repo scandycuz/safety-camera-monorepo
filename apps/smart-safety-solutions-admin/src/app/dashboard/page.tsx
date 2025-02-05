@@ -6,6 +6,7 @@ import AlertsTable from "../../components/alerts-table";
 import AlertsSheet from "../../components/alerts-sheet";
 import { SheetProvider } from "@smart-safety-solutions/components";
 import AppContext from "../../contexts/app/context";
+import AlertsPieChart from "../../components/alerts-pie-chart";
 
 const Dashboard: FunctionComponent = () => {
   const { populateSession } = useContext(SessionContext);
@@ -26,7 +27,13 @@ const Dashboard: FunctionComponent = () => {
       <div className="flex flex-1 flex-col p-4 gap-4">
         <AlertsSheet />
 
-        <AlertsGraph />
+        <div className="flex flex-row gap-2">
+          <div className="grow">
+            <AlertsGraph />
+          </div>
+
+          <AlertsPieChart />
+        </div>
 
         <div className="px-4">
           <AlertsTable />

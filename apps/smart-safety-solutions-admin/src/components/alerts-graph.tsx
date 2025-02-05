@@ -83,10 +83,8 @@ const AlertsGraph: FunctionComponent = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader>
-        <CardTitle>Recent Alerts</CardTitle>
-        <CardDescription>
-          Showing missed harness alerts for the last 30 days.
-        </CardDescription>
+        <CardTitle>Missed harness alerts</CardTitle>
+        <CardDescription>Last 30 days</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="max-h-64 min-w-full">
