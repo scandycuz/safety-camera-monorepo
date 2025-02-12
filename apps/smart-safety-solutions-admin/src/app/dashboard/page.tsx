@@ -24,7 +24,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <SheetProvider open={isAlertsSheetOpen}>
-      <div className="flex flex-1 flex-col p-4 gap-4">
+      <div className="flex flex-1 flex-col p-4 gap-6">
         <AlertsSheet />
 
         <div className="flex flex-row gap-2">

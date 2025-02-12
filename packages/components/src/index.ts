@@ -8,6 +8,7 @@ export * from "./lib/base/ui/dialog";
 export * from "./lib/base/ui/dropdown-menu";
 export * from "./lib/base/ui/input";
 export * from "./lib/form/input-field";
+export * from "./lib/form/multi-select";
 export * from "./lib/base/ui/navigation-menu";
 export * from "./lib/base/ui/separator";
 export * from "./lib/base/ui/sheet";
