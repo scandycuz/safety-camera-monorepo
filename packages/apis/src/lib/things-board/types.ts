@@ -14,6 +14,14 @@ export enum AlarmType {
   INCONCLUSIVE = "INCONCLUSIVE",
 }
 
+export enum AlarmStatus {
+  ANY = "ANY",
+  ACTIVE = "ACTIVE",
+  CLEARED = "CLEARED",
+  ACK = "ACK",
+  UNACK = "UNACK",
+}
+
 export interface QueryParams {
   readonly pageSize?: number;
   readonly page?: number;
@@ -42,9 +50,7 @@ export interface SessionTokenResponse {
 }
 
 export interface AlarmsQueryParams extends QueryParams {
-  readonly statusList?: ReadonlyArray<
-    "ANY" | "ACTIVE" | "CLEARED" | "ACK" | "UNACK"
-  >;
+  readonly statusList?: ReadonlyArray<AlarmStatus>;
   readonly typeList?: ReadonlyArray<string>;
   readonly assigneeId?: string;
   readonly severityList?: ReadonlyArray<

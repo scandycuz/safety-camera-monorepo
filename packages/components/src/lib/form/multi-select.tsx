@@ -10,6 +10,7 @@ import {
   ComboboxTrigger,
 } from "../base/ui/combobox";
 import { ChevronDown } from "lucide-react";
+import { cn } from "../utils";
 
 interface MultiSelectOption {
   readonly label: string;
@@ -17,25 +18,29 @@ interface MultiSelectOption {
 }
 
 interface MultiSelectProps {
+  readonly title?: string;
   readonly options: ReadonlyArray<MultiSelectOption>;
   readonly value: Array<string>;
   readonly onSetValue: (value: Array<string>) => void;
+  readonly className?: string;
 }
 
 export const MultiSelect: FunctionComponent<MultiSelectProps> = ({
+  title,
   options = [],
   value,
   onSetValue,
+  className,
 }) => {
   return (
     <Combobox
       value={value}
       onValueChange={onSetValue}
-      className="w-[410px]"
+      className={className}
       multiple
       autoHighlight
     >
-      <ComboboxLabel>Alarm types</ComboboxLabel>
+      {!!title && <ComboboxLabel>{title}</ComboboxLabel>}
 
       <ComboboxAnchor className="h-full min-h-10 flex-wrap pl-2 pr-3 py-2 mt-1">
         <ComboboxBadgeList>
@@ -59,7 +64,11 @@ export const MultiSelect: FunctionComponent<MultiSelectProps> = ({
 
       <ComboboxContent>
         {options.map((option) => (
-          <ComboboxItem key={option.value} value={option.value}>
+          <ComboboxItem
+            key={option.value}
+            value={option.value}
+            className="cursor-pointer"
+          >
             {option.label}
           </ComboboxItem>
         ))}

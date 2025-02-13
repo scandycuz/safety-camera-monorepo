@@ -10,12 +10,14 @@ import {
 import { FunctionComponent, useContext, useState } from "react";
 import AppContext from "../contexts/app/context";
 import {
+  AlarmType,
   useAcknowledgAlarmMutation,
   useFetchAlarmQuery,
 } from "@smart-safety-solutions/apis";
 import { Map, Marker } from "pigeon-maps";
 import Modal from "./modal";
 import Image from "next/image";
+import { cn } from "packages/components/src/lib/utils";
 
 const AlertsSidebar: FunctionComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,27 +27,32 @@ const AlertsSidebar: FunctionComponent = () => {
     setisAlertsSheetOpen,
   } = useContext(AppContext);
 
-  const { data: alert } = useFetchAlarmQuery(selectedAlert, {
+  const { data: alarm } = useFetchAlarmQuery(selectedAlert, {
     skip: !selectedAlert,
   });
 
   const [markAlertAsResolved] = useAcknowledgAlarmMutation();
 
-  if (!alert) {
+  if (!alarm) {
     return null;
   }
 
   const markerPosition: [number, number] = [
-    alert.details.latitude,
-    alert.details.longitude,
+    alarm.details.latitude,
+    alarm.details.longitude,
   ];
+
+  const title =
+    alarm.type === AlarmType.UNATTACHED
+      ? "Unattached harness alert"
+      : "Attached harness alert";
 
   return (
     <>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <Image
           alt="alert-image"
-          src={`data:image/jpeg;base64,${alert.details.image}`}
+          src={`data:image/jpeg;base64,${alarm.details.image}`}
           width={0}
           height={0}
           style={{ width: "auto", height: "100%" }}
@@ -58,20 +65,18 @@ const AlertsSidebar: FunctionComponent = () => {
       >
         <SheetHeader>
           <SheetTitle>
-            {alert.readableDate}, {alert.readableTime}
-            <p className="text-gray-600 text-large font-semibold">
-              Missing harness alert
-            </p>
+            {alarm.readableDate}, {alarm.readableTime}
+            <p className="text-gray-600 text-large font-semibold">{title}</p>
           </SheetTitle>
 
           <div className="flex flex-col">
             <SheetDescription className="mt-none leading-7">
               <strong>Employee: </strong>
-              {alert.originatorName}
+              {alarm.originatorName}
             </SheetDescription>
             <SheetDescription className="leading-7">
               <strong>Device: </strong>
-              {alert.originatorLabel.replace("Cam id: ", "")}
+              {alarm.originatorLabel.replace("Cam id: ", "")}
             </SheetDescription>
           </div>
         </SheetHeader>
@@ -81,7 +86,7 @@ const AlertsSidebar: FunctionComponent = () => {
             className="flex flex-1 cursor-pointer"
             onClick={() => setIsModalOpen(true)}
             style={{
-              backgroundImage: `url("data:image/jpeg;base64,${alert.details.image}")`,
+              backgroundImage: `url("data:image/jpeg;base64,${alarm.details.image}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -96,16 +101,25 @@ const AlertsSidebar: FunctionComponent = () => {
         <SheetFooter className="flex flex-row justify-between sm:justify-between items-center min-h-[2.25rem]">
           <div>
             <span className="font-lg">Status: </span>
-            {alert.acknowledged ? (
-              <span className="text-green-500 font-semibold">RESOLVED</span>
+            {alarm.acknowledged ? (
+              <span className="text-green-500 font-semibold">ACKNOWLEDGED</span>
             ) : (
-              <span className="text-red-500 font-semibold">PENDING</span>
+              <span
+                className={cn(
+                  "font-semibold",
+                  alarm.type === AlarmType.ATTACHED
+                    ? "text-yellow-500"
+                    : "text-red-500"
+                )}
+              >
+                PENDING
+              </span>
             )}
           </div>
 
-          {!alert.acknowledged && (
-            <Button onClick={() => markAlertAsResolved(alert.id.id)}>
-              Mark as resolved
+          {!alarm.acknowledged && (
+            <Button onClick={() => markAlertAsResolved(alarm.id.id)}>
+              Mark as acknowledged
             </Button>
           )}
         </SheetFooter>

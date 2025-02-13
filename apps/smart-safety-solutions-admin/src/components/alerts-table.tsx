@@ -1,4 +1,5 @@
 import {
+  AlarmStatus,
   AlarmType,
   SortOrder,
   useFetchAlarmsQuery,
@@ -32,22 +33,24 @@ const alarmTypeOptions = [
   },
 ];
 
-// const alarmStatusOptions = [
-//   {
-//     value: "ACK",
-//     label: "RESOLVED",
-//   },
-//   {
-//     value: "UNACK",
-//     label: "Pending",
-//   },
-// ]
+const alarmStatusOptions = [
+  {
+    value: AlarmStatus.ACK,
+    label: "Resolved",
+  },
+  {
+    value: AlarmStatus.UNACK,
+    label: "Pending",
+  },
+];
 
 const AlertsTable: FunctionComponent = () => {
   const { setisAlertsSheetOpen, setSelectedAlert } = useContext(AppContext);
 
   const [alarmTypes, setAlarmTypes] = useState([alarmTypeOptions[0].value]);
-  // const [alarmStatuses, setAlarmStatuses] = useState()
+  const [alarmStatuses, setAlarmStatuses] = useState(
+    alarmStatusOptions.map(({ value }) => value)
+  );
 
   const thirtyDaysAgo = useMemo(() => utils.thirtyDaysAgo, []);
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
@@ -58,20 +61,8 @@ const AlertsTable: FunctionComponent = () => {
       sortOrder: SortOrder.ASC,
       startTime: thirtyDaysAgo,
       typeList: alarmTypes,
+      statusList: alarmStatuses,
     }
-  );
-
-  console.log(
-    "alarms: ",
-    alarmData
-      .map((a) => {
-        if (a.type === "No Harness") {
-          return null;
-        }
-
-        return a.type;
-      })
-      .filter((a) => !!a)
   );
 
   /**
@@ -88,11 +79,21 @@ const AlertsTable: FunctionComponent = () => {
    * @param value an array of alarm type values
    */
   const handleSetAlarmTypes = (value: Array<string>): void => {
+    // prevent removing last remaining option
     if (!value.length) {
-      setAlarmTypes([alarmTypeOptions[0].value]);
+      return;
     }
 
     setAlarmTypes(value as Array<AlarmType>);
+  };
+
+  const handleSetAlarmStatuses = (value: Array<string>): void => {
+    // prevent removing last remaining option
+    if (!value.length) {
+      return;
+    }
+
+    setAlarmStatuses(value as Array<AlarmStatus>);
   };
 
   if (!alarmData.length) {
@@ -101,11 +102,20 @@ const AlertsTable: FunctionComponent = () => {
 
   return (
     <div>
-      <div className="mb-2">
+      <div className="mb-2 flex flex-row gap-8 items-center">
         <MultiSelect
+          className="w-[380px]"
+          title="Type"
           value={alarmTypes}
           options={alarmTypeOptions}
           onSetValue={handleSetAlarmTypes}
+        />
+        <MultiSelect
+          className="w-[240px]"
+          title="Status"
+          value={alarmStatuses}
+          options={alarmStatusOptions}
+          onSetValue={handleSetAlarmStatuses}
         />
       </div>
 

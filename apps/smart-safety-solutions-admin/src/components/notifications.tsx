@@ -1,4 +1,3 @@
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import {
   SortOrder,
   useFetchAlarmsQuery,
@@ -8,6 +7,7 @@ import {
 import {
   Badge,
   Button,
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,

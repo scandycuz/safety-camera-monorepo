@@ -42,7 +42,7 @@ const AlertsPieChart = () => {
     typeList: [AlarmType.ATTACHED],
     startTs: thirtyDaysAgo,
   });
-  const { data: unattachedAlarmsCount = 1 } = useFetchAlarmsCountQuery({
+  const { data: unattachedAlarmsCount = 0 } = useFetchAlarmsCountQuery({
     typeList: [AlarmType.UNATTACHED],
     startTs: thirtyDaysAgo,
   });
