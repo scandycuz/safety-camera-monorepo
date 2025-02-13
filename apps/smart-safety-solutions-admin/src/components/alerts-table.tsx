@@ -58,12 +58,14 @@ const AlertsTable: FunctionComponent = () => {
       page: 0,
       pageSize: 1000,
       sortProperty: "createdTime",
-      sortOrder: SortOrder.ASC,
+      sortOrder: SortOrder.DESC,
       startTime: thirtyDaysAgo,
       typeList: alarmTypes,
       statusList: alarmStatuses,
     }
   );
+
+  console.log("data: ", alarmData);
 
   /**
    * Opens the alert detail sheet.
@@ -130,7 +132,7 @@ const AlertsTable: FunctionComponent = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[...alarmData].reverse().map((alarm) => {
+          {alarmData.map((alarm) => {
             return (
               <TableRow
                 key={`formatted-alert-${alarm.id.id}`}
