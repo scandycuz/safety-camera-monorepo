@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@smart-safety-solutions/components";
-import dayjs from "dayjs";
+import * as utils from "@smart-safety-solutions/utils";
 import { FunctionComponent, useContext, useMemo, useState } from "react";
 import AppContext from "../contexts/app/context";
 
@@ -32,10 +32,7 @@ const AlertsTable: FunctionComponent = () => {
 
   const [alarmTypes, setAlarmTypes] = useState([alarmTypeOptions[0].value]);
 
-  const thirtyDaysAgo = useMemo(
-    () => dayjs().subtract(30, "days").valueOf(),
-    []
-  );
+  const thirtyDaysAgo = useMemo(() => utils.thirtyDaysAgo, []);
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
     {
       page: 0,
@@ -44,6 +41,19 @@ const AlertsTable: FunctionComponent = () => {
       sortOrder: SortOrder.ASC,
       startTime: thirtyDaysAgo,
     }
+  );
+
+  console.log(
+    "alarms: ",
+    alarmData
+      .map((a) => {
+        if (a.type === "No Harness") {
+          return null;
+        }
+
+        return a.type;
+      })
+      .filter((a) => !!a)
   );
 
   /**

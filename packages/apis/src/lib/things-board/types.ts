@@ -8,6 +8,12 @@ export enum SortOrder {
   DESC = "DESC",
 }
 
+export enum AlarmType {
+  ATTACHED = "No Harness",
+  UNATTACHED = "Missed Harness",
+  INCONCLUSIVE = "INCONCLUSIVE",
+}
+
 export interface QueryParams {
   readonly pageSize?: number;
   readonly page?: number;
@@ -256,3 +262,24 @@ export interface Device {
 export type DevicesResponse = PaginatedResponse<Device>;
 
 export type AcknowledgeAlarmResponse = Alarm;
+
+export interface AlarmCountRequestBody {
+  readonly startTs?: number;
+  readonly endTs?: number;
+  readonly timeWindow?: number;
+  readonly typeList?: ReadonlyArray<AlarmType>;
+  readonly statusList?: ReadonlyArray<string>;
+  readonly severityList?: ReadonlyArray<string>;
+  readonly searchPropogatedAlarms?: boolean;
+  readonly assigneeId?: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly entityFilter?: {
+    readonly type: string;
+    readonly customerId: {
+      readonly id: string;
+      readonly entityType: string;
+    };
+  };
+}

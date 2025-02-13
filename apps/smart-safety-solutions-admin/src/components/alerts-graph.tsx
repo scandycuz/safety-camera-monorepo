@@ -1,6 +1,6 @@
 "use_client";
 import { FunctionComponent, useMemo } from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -13,7 +13,12 @@ import {
   ChartTooltipContent,
 } from "@smart-safety-solutions/components";
 import dayjs from "dayjs";
-import { SortOrder, useFetchAlarmsQuery } from "@smart-safety-solutions/apis";
+import {
+  AlarmType,
+  SortOrder,
+  useFetchAlarmsQuery,
+} from "@smart-safety-solutions/apis";
+import * as utils from "@smart-safety-solutions/utils";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
@@ -30,16 +35,14 @@ const chartConfig: ChartConfig = {
 };
 
 const AlertsGraph: FunctionComponent = () => {
-  const thirtyDaysAgo = useMemo(
-    () => dayjs().subtract(30, "days").valueOf(),
-    []
-  );
+  const thirtyDaysAgo = useMemo(() => utils.thirtyDaysAgo, []);
   const { data = { data: [] } } = useFetchAlarmsQuery({
     page: 0,
     pageSize: 1000,
     sortProperty: "createdTime",
     sortOrder: SortOrder.DESC,
     startTime: thirtyDaysAgo,
+    textSearch: AlarmType.UNATTACHED,
   });
 
   // construct array of last 30 days with default alert value of 0
@@ -83,7 +86,7 @@ const AlertsGraph: FunctionComponent = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader>
-        <CardTitle>Missed harness alerts</CardTitle>
+        <CardTitle>Unattached harness alerts</CardTitle>
         <CardDescription>Last 30 days</CardDescription>
       </CardHeader>
       <CardContent>

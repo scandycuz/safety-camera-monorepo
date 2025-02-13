@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
 
 import {
@@ -10,17 +9,15 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@smart-safety-solutions/components";
-
-const chartData = [
-  { alarmType: "attached", count: 100, fill: "var(--color-attached)" },
-  // { alarmType: "inconclusive", count: 20, fill: "var(--color-inconclusive)" },
-  { alarmType: "unattached", count: 5, fill: "var(--color-unattached)" },
-];
+import {
+  AlarmType,
+  useFetchAlarmsCountQuery,
+} from "@smart-safety-solutions/apis";
+import { thirtyDaysAgo } from "@smart-safety-solutions/utils";
 
 const chartConfig = {
   count: {
@@ -38,26 +35,36 @@ const chartConfig = {
     label: "Unattached",
     color: "hsl(var(--destructive))",
   },
-} satisfies ChartConfig;
+};
 
 const AlertsPieChart = () => {
-  const totalAttached = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => {
-      if (curr.alarmType === "attached") {
-        return acc + curr.count;
-      }
+  const { data: attachedAlarmsCount = 0 } = useFetchAlarmsCountQuery({
+    typeList: [AlarmType.ATTACHED],
+    startTs: thirtyDaysAgo,
+  });
+  const { data: unattachedAlarmsCount = 1 } = useFetchAlarmsCountQuery({
+    typeList: [AlarmType.UNATTACHED],
+    startTs: thirtyDaysAgo,
+  });
 
-      return acc;
-    }, 0);
-  }, []);
+  const chartData = [
+    {
+      alarmType: "attached",
+      count: attachedAlarmsCount,
+      fill: "var(--color-attached)",
+    },
+    // { alarmType: "inconclusive", count: 20, fill: "var(--color-inconclusive)" },
+    {
+      alarmType: "unattached",
+      count: unattachedAlarmsCount,
+      fill: "var(--color-unattached)",
+    },
+  ];
+  const totalAlarmsCount = attachedAlarmsCount + unattachedAlarmsCount;
 
-  const totalCount = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => {
-      return acc + curr.count;
-    }, 0);
-  }, []);
-
-  const attachedPercentage = Math.floor((totalAttached / totalCount) * 100);
+  const attachedPercentage = Math.floor(
+    (attachedAlarmsCount / totalAlarmsCount) * 100
+  );
 
   return (
     <Card className="flex flex-col border-none shadow-none min-w-[360px]">

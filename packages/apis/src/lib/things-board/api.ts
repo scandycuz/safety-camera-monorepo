@@ -17,6 +17,7 @@ import {
   AcknowledgeAlarmResponse,
   Tag,
   NotificationsQueryParams,
+  AlarmCountRequestBody,
 } from "./types";
 import { baseQueryWithReauth } from "./utils";
 import dayjs from "dayjs";
@@ -71,6 +72,22 @@ const api = createApi({
         }
       },
       transformResponse: transformApiAlarm,
+    }),
+    fetchAlarmsCount: build.query<number, AlarmCountRequestBody>({
+      query: (body) => ({
+        url: "/api/alarmsQuery/count",
+        method: "POST",
+        body,
+      }),
+      providesTags: [Tag.Alarm],
+      onQueryStarted: async (params, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
     }),
     fetchNotifications: build.query<
       NotificationsResponse,
@@ -184,6 +201,7 @@ const api = createApi({
 export const {
   useFetchAlarmQuery,
   useFetchAlarmsQuery,
+  useFetchAlarmsCountQuery,
   useReadNotificationMutation,
   useAcknowledgAlarmMutation,
   useFetchNotificationsQuery,
