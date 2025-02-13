@@ -15,26 +15,39 @@ import {
 import * as utils from "@smart-safety-solutions/utils";
 import { FunctionComponent, useContext, useMemo, useState } from "react";
 import AppContext from "../contexts/app/context";
+import { cn } from "packages/components/src/lib/utils";
 
 const alarmTypeOptions = [
   {
     value: AlarmType.UNATTACHED,
-    label: "UNATTACHED",
+    label: "Unattached",
   },
   {
     value: AlarmType.ATTACHED,
-    label: "ATTACHED",
+    label: "Attached",
   },
   {
     value: AlarmType.INCONCLUSIVE,
-    label: "INCONCLUSIVE",
+    label: "Inconclusive",
   },
 ];
+
+// const alarmStatusOptions = [
+//   {
+//     value: "ACK",
+//     label: "RESOLVED",
+//   },
+//   {
+//     value: "UNACK",
+//     label: "Pending",
+//   },
+// ]
 
 const AlertsTable: FunctionComponent = () => {
   const { setisAlertsSheetOpen, setSelectedAlert } = useContext(AppContext);
 
   const [alarmTypes, setAlarmTypes] = useState([alarmTypeOptions[0].value]);
+  // const [alarmStatuses, setAlarmStatuses] = useState()
 
   const thirtyDaysAgo = useMemo(() => utils.thirtyDaysAgo, []);
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
@@ -74,12 +87,12 @@ const AlertsTable: FunctionComponent = () => {
    *
    * @param value an array of alarm type values
    */
-  const handleSetAlarmTypes = (value: string[]): void => {
+  const handleSetAlarmTypes = (value: Array<string>): void => {
     if (!value.length) {
       setAlarmTypes([alarmTypeOptions[0].value]);
     }
 
-    setAlarmTypes(value);
+    setAlarmTypes(value as Array<AlarmType>);
   };
 
   if (!alarmData.length) {
@@ -117,7 +130,11 @@ const AlertsTable: FunctionComponent = () => {
                 <TableCell>
                   {alarm.readableDate}, {alarm.readableTime}
                 </TableCell>
-                <TableCell>{alarm.type}</TableCell>
+                <TableCell>
+                  {alarm.type === AlarmType.ATTACHED
+                    ? "Attached"
+                    : "Unattached"}
+                </TableCell>
                 <TableCell>{alarm.originatorName}</TableCell>
                 <TableCell>
                   {alarm.originatorLabel.replace("Cam id:", "")}
@@ -125,10 +142,19 @@ const AlertsTable: FunctionComponent = () => {
                 <TableCell className="text-right w-[200px]">
                   {alarm.acknowledged ? (
                     <span className="text-green-500 font-semibold">
-                      RESOLVED
+                      ACKNOWLEDGED
                     </span>
                   ) : (
-                    <span className="text-red-500 font-semibold">PENDING</span>
+                    <span
+                      className={cn(
+                        "font-semibold",
+                        alarm.type === AlarmType.ATTACHED
+                          ? "text-yellow-500"
+                          : "text-red-500"
+                      )}
+                    >
+                      PENDING
+                    </span>
                   )}
                 </TableCell>
               </TableRow>

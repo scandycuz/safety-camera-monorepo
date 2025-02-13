@@ -83,9 +83,11 @@ const Notifications: FunctionComponent = () => {
     <DropdownMenu>
       <DropdownMenuTrigger className="relative" asChild>
         <Button variant="outline">
-          <Badge className="absolute -top-2 -left-2" variant="destructive">
-            {notificationCount}
-          </Badge>
+          {!!notificationCount && (
+            <Badge className="absolute -top-2 -left-2" variant="destructive">
+              {notificationCount}
+            </Badge>
+          )}
           <Bell />
         </Button>
       </DropdownMenuTrigger>
