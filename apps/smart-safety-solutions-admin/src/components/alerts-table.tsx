@@ -36,7 +36,7 @@ const alarmTypeOptions = [
 const alarmStatusOptions = [
   {
     value: AlarmStatus.ACK,
-    label: "Resolved",
+    label: "Acknowledged",
   },
   {
     value: AlarmStatus.UNACK,
@@ -111,7 +111,7 @@ const AlertsTable: FunctionComponent = () => {
           onSetValue={handleSetAlarmTypes}
         />
         <MultiSelect
-          className="w-[240px]"
+          className="w-[274px]"
           title="Status"
           value={alarmStatuses}
           options={alarmStatusOptions}
