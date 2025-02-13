@@ -1,4 +1,8 @@
-import { SortOrder, useFetchAlarmsQuery } from "@smart-safety-solutions/apis";
+import {
+  AlarmType,
+  SortOrder,
+  useFetchAlarmsQuery,
+} from "@smart-safety-solutions/apis";
 import {
   MultiSelect,
   Table,
@@ -14,15 +18,15 @@ import AppContext from "../contexts/app/context";
 
 const alarmTypeOptions = [
   {
-    value: "UNATTACHED",
+    value: AlarmType.UNATTACHED,
     label: "UNATTACHED",
   },
   {
-    value: "ATTACHED",
+    value: AlarmType.ATTACHED,
     label: "ATTACHED",
   },
   {
-    value: "INCONCLUSIVE",
+    value: AlarmType.INCONCLUSIVE,
     label: "INCONCLUSIVE",
   },
 ];
@@ -40,6 +44,7 @@ const AlertsTable: FunctionComponent = () => {
       sortProperty: "createdTime",
       sortOrder: SortOrder.ASC,
       startTime: thirtyDaysAgo,
+      typeList: alarmTypes,
     }
   );
 
