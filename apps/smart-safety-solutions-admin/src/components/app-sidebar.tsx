@@ -1,5 +1,5 @@
-'use client';
-import { images } from '@smart-safety-solutions/assets';
+"use client";
+import { images } from "@smart-safety-solutions/assets";
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +13,11 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@smart-safety-solutions/components';
-import { ChartArea, Radar, Settings, SquareUser } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FunctionComponent } from 'react';
+} from "@smart-safety-solutions/components";
+import { ChartArea, Radar, Settings, SquareUser } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { FunctionComponent } from "react";
 
 const AppSidebar: FunctionComponent = () => {
   return (
@@ -37,7 +37,7 @@ const AppSidebar: FunctionComponent = () => {
             <SidebarMenu>
               <SidebarMenuItem key="home">
                 <SidebarMenuButton asChild>
-                  <Link href="#">
+                  <Link href="/dashboard">
                     <ChartArea />
                     <span>Dashboard</span>
                   </Link>
@@ -55,17 +55,17 @@ const AppSidebar: FunctionComponent = () => {
                 <SidebarMenuSub className="border-gray-300">
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href="#">Devices</Link>
+                      <Link href="/devices">Devices</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href="#">Crews</Link>
+                      <Link href="/crews">Crews</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href="#">Employees</Link>
+                      <Link href="/employees">Employees</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 </SidebarMenuSub>
@@ -73,7 +73,7 @@ const AppSidebar: FunctionComponent = () => {
 
               <SidebarMenuItem key="monitor">
                 <SidebarMenuButton asChild>
-                  <Link href="#">
+                  <Link href="/monitor">
                     <Radar />
                     <span>Monitor</span>
                   </Link>
@@ -82,7 +82,7 @@ const AppSidebar: FunctionComponent = () => {
 
               <SidebarMenuItem key="settings">
                 <SidebarMenuButton asChild>
-                  <Link href="#">
+                  <Link href="/settings">
                     <Settings />
                     <span>Settings</span>
                   </Link>
