@@ -2,6 +2,7 @@
 import { SortOrder, useFetchDevicesQuery } from "@smart-safety-solutions/apis";
 import {
   Badge,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -67,7 +68,9 @@ const DevicesTable: FunctionComponent = () => {
                 )}
               </TableCell>
               <TableCell className="flex flex-row justify-end">
-                <Trash2Icon />
+                <Button variant="ghost">
+                  <Trash2Icon />
+                </Button>
               </TableCell>
             </TableRow>
           );
