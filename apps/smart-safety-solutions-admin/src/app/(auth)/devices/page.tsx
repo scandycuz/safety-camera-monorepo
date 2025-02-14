@@ -1,6 +1,6 @@
 "use client";
 import { FunctionComponent } from "react";
-import DevicesTable from "../../components/devices-table";
+import DevicesTable from "../../../components/devices-table";
 import {
   Button,
   Card,
