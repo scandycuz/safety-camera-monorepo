@@ -18,12 +18,18 @@ import {
   Tag,
   NotificationsQueryParams,
   AlarmCountRequestBody,
+  ApiDevice,
+  Device,
 } from "./types";
 import { baseQueryWithReauth } from "./utils";
 import dayjs from "dayjs";
 import { receiveSession } from "@smart-safety-solutions/contexts";
 import advancedFormat from "dayjs/plugin/advancedFormat";
-import { transformApiAlarm, transformApiNotificiation } from "./transforms";
+import {
+  transformApiAlarm,
+  transformApiDevice,
+  transformApiNotificiation,
+} from "./transforms";
 
 dayjs.extend(advancedFormat);
 
@@ -193,6 +199,18 @@ const api = createApi({
           console.log(err);
           // TODO: set error toast message
         }
+      },
+      transformResponse: (
+        resp: PaginatedResponse<ApiDevice>
+      ): PaginatedResponse<Device> => {
+        const formattedData = resp.data.map((item) => {
+          return transformApiDevice(item);
+        });
+
+        return {
+          ...resp,
+          data: formattedData,
+        };
       },
     }),
   }),

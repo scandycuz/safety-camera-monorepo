@@ -61,11 +61,9 @@ const AlertsTable: FunctionComponent = () => {
       sortOrder: SortOrder.DESC,
       startTime: thirtyDaysAgo,
       typeList: alarmTypes,
-      statusList: alarmStatuses,
+      // statusList: alarmStatuses,
     }
   );
-
-  console.log("data: ", alarmData);
 
   /**
    * Opens the alert detail sheet.

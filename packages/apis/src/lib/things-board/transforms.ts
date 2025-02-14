@@ -1,5 +1,12 @@
 import dayjs from "dayjs";
-import { Alarm, ApiAlarm, ApiNotification, Notification } from "./types";
+import {
+  Alarm,
+  ApiAlarm,
+  ApiDevice,
+  ApiNotification,
+  Device,
+  Notification,
+} from "./types";
 
 export const transformApiAlarm = (resp: ApiAlarm): Alarm => {
   const parsedDate = dayjs(resp.createdTime);
@@ -27,6 +34,18 @@ export const transformApiNotificiation = (
 
   return {
     ...notification,
+    readableDate,
+    readableTime,
+  };
+};
+
+export const transformApiDevice = (device: ApiDevice): Device => {
+  const parsedDate = dayjs(device.createdTime);
+  const readableDate = parsedDate.format("MMM Do");
+  const readableTime = parsedDate.format("h:mm:ss A");
+
+  return {
+    ...device,
     readableDate,
     readableTime,
   };

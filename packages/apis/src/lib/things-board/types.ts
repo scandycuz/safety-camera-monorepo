@@ -222,7 +222,7 @@ export interface DeviceQueryParams extends QueryParams {
   readonly textSearch?: string;
 }
 
-export interface Device {
+export interface ApiDevice {
   readonly createdTime: string;
   readonly name: string;
   readonly type: string;
@@ -263,6 +263,11 @@ export interface Device {
       readonly type: string;
     };
   };
+}
+
+export interface Device extends ApiDevice {
+  readonly readableDate: string;
+  readonly readableTime: string;
 }
 
 export type DevicesResponse = PaginatedResponse<Device>;
