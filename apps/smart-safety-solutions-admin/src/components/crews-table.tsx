@@ -1,7 +1,9 @@
 "use client";
-import { SortOrder, useFetchDevicesQuery } from "@smart-safety-solutions/apis";
 import {
-  Badge,
+  EntityType,
+  useFetchEntitiesQuery,
+} from "@smart-safety-solutions/apis";
+import {
   Button,
   Table,
   TableBody,
@@ -14,13 +16,13 @@ import { Trash2Icon } from "lucide-react";
 import { SessionContext } from "@smart-safety-solutions/contexts";
 import { FunctionComponent, useContext } from "react";
 
-const DevicesTable: FunctionComponent = () => {
+const CrewsTable: FunctionComponent = () => {
   const {
     state: { customerId },
   } = useContext(SessionContext);
 
-  const { data: { data: devices } = { data: [] } } = useFetchDevicesQuery(
-    { customerId, sortProperty: "createdTime", sortOrder: SortOrder.DESC },
+  const { data: { data: crews } = { data: [] } } = useFetchEntitiesQuery(
+    { customerId, type: EntityType.CREW },
     { skip: !customerId }
   );
 
@@ -29,33 +31,23 @@ const DevicesTable: FunctionComponent = () => {
       <TableHeader>
         <TableRow>
           <TableHead>Created</TableHead>
-          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>State</TableHead>
+          <TableHead>Label</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {devices.map((device) => {
+        {crews.map((crew) => {
           return (
             <TableRow
-              key={`formatted-alert-${device.id.id}`}
+              key={`formatted-alert-${crew.id.id}`}
               className="cursor-pointer"
             >
               <TableCell>
-                {device.readableDate}, {device.readableTime}
+                {crew.readableDate}, {crew.readableTime}
               </TableCell>
-              <TableCell>{device.label.replace("Cam id:", "")}</TableCell>
-              <TableCell>{device.name}</TableCell>
-              <TableCell>
-                {device.active ? (
-                  <Badge isHoverDisabled={true}>Active</Badge>
-                ) : (
-                  <Badge isHoverDisabled={true} variant="destructive">
-                    Inactive
-                  </Badge>
-                )}
-              </TableCell>
+              <TableCell>{crew.name}</TableCell>
+              <TableCell>{crew.label}</TableCell>
               <TableCell className="flex flex-row justify-end">
                 <Button variant="ghost">
                   <Trash2Icon />
@@ -69,4 +61,4 @@ const DevicesTable: FunctionComponent = () => {
   );
 };
 
-export default DevicesTable;
+export default CrewsTable;

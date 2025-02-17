@@ -3,8 +3,10 @@ import {
   Alarm,
   ApiAlarm,
   ApiDevice,
+  ApiEntity,
   ApiNotification,
   Device,
+  Entity,
   Notification,
 } from "./types";
 
@@ -46,6 +48,18 @@ export const transformApiDevice = (device: ApiDevice): Device => {
 
   return {
     ...device,
+    readableDate,
+    readableTime,
+  };
+};
+
+export const transformApiEntity = (entity: ApiEntity): Entity => {
+  const parsedDate = dayjs(entity.createdTime);
+  const readableDate = parsedDate.format("MMM Do");
+  const readableTime = parsedDate.format("h:mm:ss A");
+
+  return {
+    ...entity,
     readableDate,
     readableTime,
   };

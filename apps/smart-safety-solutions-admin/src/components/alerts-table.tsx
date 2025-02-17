@@ -61,7 +61,7 @@ const AlertsTable: FunctionComponent = () => {
       sortOrder: SortOrder.DESC,
       startTime: thirtyDaysAgo,
       typeList: alarmTypes,
-      // statusList: alarmStatuses,
+      statusList: alarmStatuses,
     }
   );
 

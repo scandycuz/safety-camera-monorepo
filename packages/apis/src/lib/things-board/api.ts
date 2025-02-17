@@ -20,6 +20,10 @@ import {
   AlarmCountRequestBody,
   ApiDevice,
   Device,
+  EntitiesResponse,
+  ApiEntity,
+  Entity,
+  EntityQueryParams,
 } from "./types";
 import { baseQueryWithReauth } from "./utils";
 import dayjs from "dayjs";
@@ -28,6 +32,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import {
   transformApiAlarm,
   transformApiDevice,
+  transformApiEntity,
   transformApiNotificiation,
 } from "./transforms";
 
@@ -35,7 +40,7 @@ dayjs.extend(advancedFormat);
 
 const api = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: [Tag.Alarm, Tag.Notification],
+  tagTypes: [Tag.Alarm, Tag.Entity, Tag.Notification],
   endpoints: (build) => ({
     fetchAlarms: build.query<AlarmsResponse, AlarmsQueryParams | void>({
       query: (params: AlarmsQueryParams = { pageSize: 100, page: 0 }) => ({
@@ -213,6 +218,33 @@ const api = createApi({
         };
       },
     }),
+    fetchEntities: build.query<EntitiesResponse, EntityQueryParams>({
+      query: ({ customerId, pageSize = 100, page = 0, ...params }) => ({
+        url: `/api/customer/${customerId}/assets`,
+        params: { pageSize, page, ...params },
+      }),
+      providesTags: [Tag.Entity],
+      onQueryStarted: async (params, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.log(err);
+          // TODO: set error toast message
+        }
+      },
+      transformResponse: (
+        resp: PaginatedResponse<ApiEntity>
+      ): PaginatedResponse<Entity> => {
+        const formattedData = resp.data.map((item) => {
+          return transformApiEntity(item);
+        });
+
+        return {
+          ...resp,
+          data: formattedData,
+        };
+      },
+    }),
   }),
 });
 
@@ -225,6 +257,7 @@ export const {
   useFetchNotificationsQuery,
   useFetchUserProfileQuery,
   useFetchDevicesQuery,
+  useFetchEntitiesQuery,
   useLogInMutation,
 } = api;
 

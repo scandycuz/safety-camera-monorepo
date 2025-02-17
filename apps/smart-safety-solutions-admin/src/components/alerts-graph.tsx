@@ -45,8 +45,6 @@ const AlertsGraph: FunctionComponent = () => {
     typeList: [AlarmType.UNATTACHED],
   });
 
-  console.log("graph data: ", data);
-
   // construct array of last 30 days with default alert value of 0
   const last30DaysArr = Array.from({ length: 30 }, (_, i) => {
     const today = dayjs();

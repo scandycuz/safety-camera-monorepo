@@ -63,11 +63,6 @@ const AppSidebar: FunctionComponent = () => {
                       <Link href="/crews">Crews</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
-                  <SidebarMenuSubItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="/employees">Employees</Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
                 </SidebarMenuSub>
               </SidebarMenuItem>
 

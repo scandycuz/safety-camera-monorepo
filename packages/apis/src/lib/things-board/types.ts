@@ -1,6 +1,7 @@
 export enum Tag {
   Alarm = "Alarm",
   Notification = "Notification",
+  Entity = "Entity",
 }
 
 export enum SortOrder {
@@ -20,6 +21,10 @@ export enum AlarmStatus {
   CLEARED = "CLEARED",
   ACK = "ACK",
   UNACK = "UNACK",
+}
+
+export enum EntityType {
+  CREW = "Crew",
 }
 
 export interface QueryParams {
@@ -293,4 +298,41 @@ export interface AlarmCountRequestBody {
       readonly entityType: string;
     };
   };
+}
+
+export interface ApiEntity {
+  readonly createdTime: number;
+  readonly name: string;
+  readonly type: string;
+  readonly label: string;
+  readonly version: number;
+
+  readonly id: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly tenantId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly customerId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+  readonly assetProfileId: {
+    readonly id: string;
+    readonly entityType: string;
+  };
+}
+
+export interface Entity extends ApiEntity {
+  readonly readableDate: string;
+  readonly readableTime: string;
+}
+
+export type EntitiesResponse = PaginatedResponse<Entity>;
+
+export interface EntityQueryParams extends QueryParams {
+  readonly customerId: string;
+  readonly type?: string;
 }
