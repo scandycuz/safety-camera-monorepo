@@ -38,10 +38,7 @@ const DevicesTable: FunctionComponent = () => {
       <TableBody>
         {devices.map((device) => {
           return (
-            <TableRow
-              key={`formatted-alert-${device.id.id}`}
-              className="cursor-pointer"
-            >
+            <TableRow key={`formatted-alert-${device.id.id}`}>
               <TableCell>
                 {device.readableDate}, {device.readableTime}
               </TableCell>

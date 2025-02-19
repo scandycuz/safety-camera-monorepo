@@ -39,10 +39,7 @@ const CrewsTable: FunctionComponent = () => {
       <TableBody>
         {crews.map((crew) => {
           return (
-            <TableRow
-              key={`formatted-alert-${crew.id.id}`}
-              className="cursor-pointer"
-            >
+            <TableRow key={`formatted-alert-${crew.id.id}`}>
               <TableCell>
                 {crew.readableDate}, {crew.readableTime}
               </TableCell>
