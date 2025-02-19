@@ -56,13 +56,14 @@ const AlertsTable: FunctionComponent = () => {
   const { data: { data: alarmData = [] } = { data: [] } } = useFetchAlarmsQuery(
     {
       page: 0,
-      pageSize: 1000,
+      pageSize: 100,
       sortProperty: "createdTime",
       sortOrder: SortOrder.DESC,
       startTime: thirtyDaysAgo,
       typeList: alarmTypes,
       statusList: alarmStatuses,
-    }
+    },
+    { pollingInterval: 10000, skipPollingIfUnfocused: true }
   );
 
   /**

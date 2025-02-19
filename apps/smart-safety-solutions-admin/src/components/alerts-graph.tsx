@@ -36,14 +36,17 @@ const chartConfig: ChartConfig = {
 
 const AlertsGraph: FunctionComponent = () => {
   const thirtyDaysAgo = useMemo(() => utils.thirtyDaysAgo, []);
-  const { data = { data: [] } } = useFetchAlarmsQuery({
-    page: 0,
-    pageSize: 1000,
-    sortProperty: "createdTime",
-    sortOrder: SortOrder.DESC,
-    startTime: thirtyDaysAgo,
-    typeList: [AlarmType.UNATTACHED],
-  });
+  const { data = { data: [] } } = useFetchAlarmsQuery(
+    {
+      page: 0,
+      pageSize: 100,
+      sortProperty: "createdTime",
+      sortOrder: SortOrder.DESC,
+      startTime: thirtyDaysAgo,
+      typeList: [AlarmType.UNATTACHED],
+    },
+    { pollingInterval: 10000, skipPollingIfUnfocused: true }
+  );
 
   // construct array of last 30 days with default alert value of 0
   const last30DaysArr = Array.from({ length: 30 }, (_, i) => {

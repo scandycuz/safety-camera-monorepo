@@ -26,12 +26,15 @@ const Notifications: FunctionComponent = () => {
 
   const [markAsRead] = useReadNotificationMutation();
 
-  const { data: { data: alarms } = {} } = useFetchAlarmsQuery({
-    pageSize: 50,
-    page: 0,
-    sortProperty: "createdTime",
-    sortOrder: SortOrder.DESC,
-  });
+  const { data: { data: alarms } = {} } = useFetchAlarmsQuery(
+    {
+      pageSize: 50,
+      page: 0,
+      sortProperty: "createdTime",
+      sortOrder: SortOrder.DESC,
+    },
+    { pollingInterval: 10000, skipPollingIfUnfocused: true }
+  );
 
   const { data: { data: notifications } = {} } = useFetchNotificationsQuery({
     pageSize: 50,

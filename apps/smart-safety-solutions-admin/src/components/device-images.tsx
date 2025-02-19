@@ -10,15 +10,18 @@ import Image from "next/image";
 import { FunctionComponent } from "react";
 
 const DeviceImages: FunctionComponent = () => {
-  const { data: { data: alarms = [] } = { data: [] } } = useFetchAlarmsQuery({
-    page: 0,
-    pageSize: 20,
-    sortProperty: "createdTime",
-    sortOrder: SortOrder.DESC,
-    startTime: thirtyDaysAgo,
-    // typeList: alarmTypes,
-    // statusList: alarmStatuses,
-  });
+  const { data: { data: alarms = [] } = { data: [] } } = useFetchAlarmsQuery(
+    {
+      page: 0,
+      pageSize: 20,
+      sortProperty: "createdTime",
+      sortOrder: SortOrder.DESC,
+      startTime: thirtyDaysAgo,
+      // typeList: alarmTypes,
+      // statusList: alarmStatuses,
+    },
+    { pollingInterval: 10000, skipPollingIfUnfocused: true }
+  );
 
   return (
     <div className="flex flex-row flex-wrap gap-2">

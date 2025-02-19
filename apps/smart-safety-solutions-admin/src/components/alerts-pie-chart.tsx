@@ -27,10 +27,6 @@ const chartConfig = {
     label: "Attached",
     color: "hsl(var(--chart-2))",
   },
-  // inconclusive: {
-  //   label: "Inconclusive",
-  //   color: "hsl(var(--chart-4))",
-  // },
   unattached: {
     label: "Unattached",
     color: "hsl(var(--destructive))",
@@ -39,10 +35,13 @@ const chartConfig = {
 
 const AlertsPieChart = () => {
   const { data: attachedAlarmsCount = 0, isLoading: isAttachedAlarmsLoading } =
-    useFetchAlarmsCountQuery({
-      typeList: [AlarmType.ATTACHED],
-      startTs: thirtyDaysAgo,
-    });
+    useFetchAlarmsCountQuery(
+      {
+        typeList: [AlarmType.ATTACHED],
+        startTs: thirtyDaysAgo,
+      },
+      { pollingInterval: 10000, skipPollingIfUnfocused: true }
+    );
   const {
     data: unattachedAlarmsCount = 0,
     isLoading: isUnattachedAlarmsLoading,
