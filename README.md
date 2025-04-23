@@ -1,6 +1,6 @@
 # Safety Camera Monorepo
 
-This repo for a safety company utilizes a monorepo first approach. Individual applications are minimal. Components, RTKQuery APIs, and contexts can be imported and utilized throughout multiple apps with minimal setup.
+This repo utilizes a monorepo first approach. Individual applications are minimal. Components, RTKQuery APIs, and contexts can be imported and utilized throughout multiple apps with minimal setup.
 
 ## Primary frameworks and libraries
 
