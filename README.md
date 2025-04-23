@@ -1,6 +1,6 @@
-# Smart Safety Solutions Monorepo
+# Safety Camera Monorepo
 
-<a alt="Nx logo" href="https://smart-safety-solutions.com" target="_blank" rel="noreferrer"><img src="./packages/assets/src/lib/images/smart-safety-solutions-logo.webp" width="280"></a>
+This repo for a safety company utilizes a monorepo first approach. Individual applications are minimal. Components, RTKQuery APIs, and contexts can be imported and utilized throughout multiple apps with minimal setup.
 
 ## Primary frameworks and libraries
 
@@ -37,30 +37,6 @@ New apps will need their own Tailwind setup. Documentation for this can be found
 ### Nx
 
 This repo utilizes Nx for monorepo support. Run `npx nx graph` to generate a visualization of the app and package dependencies.
-
-#### Run tasks
-
-To run the dev server for the admin app, use:
-
-```sh
-npx nx dev smart-safety-solutions-admin
-```
-
-To create a production bundle for the admin app use:
-
-```sh
-npx nx build smart-safety-solutions-admin
-```
-
-To see all available targets, run:
-
-```sh
-npx nx show project smart-safety-solutions-admin
-```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the Nx docs](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
 #### Adding new apps and packages
 
