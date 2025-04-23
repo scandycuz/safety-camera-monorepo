@@ -1,6 +1,6 @@
 # Safety Camera Monorepo
 
-This repo utilizes a monorepo first approach. Individual applications are minimal. Components, RTKQuery APIs, and contexts can be imported and utilized throughout multiple apps with minimal setup.
+This repository uses a monorepo structure to organize code into reusable packages for multiple applications. Shared React components, RTK Query APIs, and React contexts enable quick app development with minimal configuration.
 
 ## Primary frameworks and libraries
 
@@ -25,8 +25,6 @@ State management unrelated to API data is handled using [Redux Toolkit](https://
 
 The repo uses [Shadcn](https://ui.shadcn.com/) to create an internal component libary. Components live in the
 [components package](./packages/components/), and new components can be added through the Shadcn CLI. The [Shadcn documentation](https://ui.shadcn.com/docs) provides information about it's use, however, generally new componenents will be added by navigating to the [components package](./packages/components/) and running a component generation script, such as `npx shadcn@latest add button`.
-
-Coming soon: script to add new Shadcn components from the repo root.
 
 ### Tailwind
 
